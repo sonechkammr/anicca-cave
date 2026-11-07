@@ -14,6 +14,10 @@ jobs:
           distribution: temurin
           java-version: 17
       - uses: android-actions/setup-android@v3
+        with:
+          # The action's default "tools" package no longer exists, which fails the step.
+          # Gradle downloads the platform it needs once the licences are accepted.
+          packages: ''
       - uses: gradle/actions/setup-gradle@v4
       - name: Build, unit tests and lint
         run: |
