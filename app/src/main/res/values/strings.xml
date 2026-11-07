@@ -269,4 +269,9 @@
     <string name="share_chooser">Share</string>
     <!-- Daily line about impermanence. Texts are added only after the project owner approves them. -->
     <string-array name="impermanence_lines" />
+
+    <!-- Widgets showcase -->
+    <string name="widget_customize">Customize</string>
+    <string name="widget_customize_hint">Add the widget first, then you can customize it.</string>
+    <string name="widget_position">%1$d of %2$d</string>
 </resources>

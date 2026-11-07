@@ -256,7 +256,8 @@ private fun CustomColor(current: Int, onPick: (Int) -> Unit) {
     )
 }
 
-private val BACKDROPS = intArrayOf(0xFF6E6878.toInt(), 0xFFE8E5DE.toInt(), 0xFF0D0E12.toInt())
+/** Flat colours standing in for a mid, a light and a dark wallpaper. */
+internal val BACKDROPS = intArrayOf(0xFF6E6878.toInt(), 0xFFE8E5DE.toInt(), 0xFF0D0E12.toInt())
 
 /**
  * The real widget RemoteViews drawn over a flat colour that stands in for the wallpaper.
@@ -264,7 +265,13 @@ private val BACKDROPS = intArrayOf(0xFF6E6878.toInt(), 0xFFE8E5DE.toInt(), 0xFF0
  * Redrawn every second; the flipping decimals are left out and the digits just tick.
  */
 @Composable
-internal fun WidgetPreview(id: Int, def: Kind, wDp: Int, hDp: Int, cfg: WidgetConfig, backdrop: Int = 0) {
+internal fun WidgetPreview(
+    id: Int, def: Kind, wDp: Int, hDp: Int, cfg: WidgetConfig, backdrop: Int = 0,
+    /** Draws a soft gradient instead of a flat colour, so the stage looks more like a wallpaper. */
+    wallpaper: Boolean = false,
+    /** Space around the widget, inside the stage. */
+    stagePadding: androidx.compose.ui.unit.Dp = 20.dp,
+) {
     val ctx = LocalContext.current
     var now by remember { mutableLongStateOf(System.currentTimeMillis()) }
     LaunchedEffect(Unit) { while (true) { delay(1000); now = System.currentTimeMillis() } }
@@ -272,8 +279,20 @@ internal fun WidgetPreview(id: Int, def: Kind, wDp: Int, hDp: Int, cfg: WidgetCo
     val pw = (wDp * scale).toInt()
     val ph = (hDp * scale).toInt()
     val color = BACKDROPS[backdrop.coerceIn(0, BACKDROPS.lastIndex)]
+    val base = Color(color)
+    val fill = if (wallpaper) {
+        androidx.compose.ui.graphics.Brush.linearGradient(
+            listOf(
+                androidx.compose.ui.graphics.lerp(base, Color.White, 0.18f),
+                base,
+                androidx.compose.ui.graphics.lerp(base, Color.Black, 0.30f),
+            ),
+        )
+    } else {
+        androidx.compose.ui.graphics.SolidColor(base)
+    }
     Box(
-        Modifier.fillMaxWidth().height((ph + 40).dp).clip(RoundedCornerShape(24.dp)).background(Color(color)),
+        Modifier.fillMaxWidth().height(ph.dp + stagePadding * 2).clip(RoundedCornerShape(24.dp)).background(fill),
         contentAlignment = Alignment.Center,
     ) {
         AndroidView(

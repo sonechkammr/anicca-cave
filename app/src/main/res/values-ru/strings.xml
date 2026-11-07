@@ -270,4 +270,9 @@
     <string name="share_image">Поделиться картинкой</string>
     <string name="share_chooser">Поделиться</string>
     <string-array name="impermanence_lines" />
+
+    <!-- Витрина виджетов -->
+    <string name="widget_customize">Настроить</string>
+    <string name="widget_customize_hint">Сначала добавьте виджет на экран, затем его можно настроить.</string>
+    <string name="widget_position">%1$d из %2$d</string>
 </resources>
