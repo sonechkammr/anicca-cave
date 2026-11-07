@@ -15,8 +15,9 @@ Design notes:
 - The red accent (`#E5242B`, `NowRed`) marks "now": the ruler needle, today's dot, Earth, the current mala bead,
   the current year in the life grid.
 - Heartbeats use a fixed 70 bpm and an average lifetime of 2.5 billion beats. They are shown as an average, never
-  as a forecast. The widget shows about how many are left (`Pulse.leftApprox`, rounded to thousands, the last three
-  digits drawn faint) and only one word, "left" / "ещё"; no other text. Past the average the count stays at 0. The ECG is
+  as a forecast. The widget shows how many are left on average, to the last digit and running down like the age
+  decimals (do not round it: the moving digits are the point of the app), and only one word, "left" / "ещё"; no other
+  text. Past the average the count stays at 0. The ECG is
   a 24-frame ViewFlipper at 71 ms per frame: one sweep is two beats, 1.71 s, which is 70 bpm.
 - Path: whole kilometres with thin gaps between thousands, no decimal point.
 - Planets: compressed, roughly logarithmic orbit scale; positions come from the JPL Keplerian elements

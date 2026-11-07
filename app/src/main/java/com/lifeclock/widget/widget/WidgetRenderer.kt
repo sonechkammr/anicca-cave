@@ -289,7 +289,6 @@ object WidgetRenderer {
      */
     private fun buildGrouped(
         ctx: Context, cfg: WidgetConfig, read: (Long) -> Long, nowMs: Long, w: Float, h: Float, light: Boolean,
-        dimTail: Int = 0,
     ): Pair<RemoteViews, Boolean> {
         val now = Trip.cells(read(nowMs))
         val digits = now.count { it >= 0 }
@@ -309,17 +308,13 @@ object WidgetRenderer {
                 frames.add(f)
             }
         }
-        // the last [dimTail] digits are drawn faint: they are rounded, not measured
-        val faint = BooleanArray(now.size)
-        var seen = 0
-        for (k in now.indices.reversed()) if (now[k] >= 0) { if (seen < dimTail) faint[k] = true; seen++ }
         var first = now.size
         for (f in frames) for (k in now.indices) if (f[k] != now[k]) { first = min(first, k); break }
         val flows = first < now.size
 
         val number = RemoteViews(ctx.packageName, R.layout.number_inline)
         for (k in 0 until first) {
-            number.addView(R.id.row1, groupedCell(ctx, cfg, now[k], width(now[k]), dh, dim = faint[k]))
+            number.addView(R.id.row1, groupedCell(ctx, cfg, now[k], width(now[k]), dh, dim = false))
         }
         if (flows) {
             val flip = RemoteViews(ctx.packageName, R.layout.flip_p8)
@@ -329,7 +324,7 @@ object WidgetRenderer {
                 val row = RemoteViews(ctx.packageName, R.layout.frame_row)
                 for (k in first until f.size) {
                     val cell = RemoteViews(ctx.packageName, R.layout.digit_cell)
-                    if (f[k] >= 0) styled(cell, R.id.cell, glyph(cfg, f[k]), cfg, dim = k >= f.size - 2 || faint[k])
+                    if (f[k] >= 0) styled(cell, R.id.cell, glyph(cfg, f[k]), cfg, dim = k >= f.size - 2)
                     cell.setViewLayoutWidth(R.id.cell, width(f[k]), dp)
                     row.addView(R.id.frame_row, cell)
                 }
@@ -427,8 +422,9 @@ object WidgetRenderer {
     }
 
     /**
-     * A trace and, under it, about how many heartbeats are left on average (70 a minute against a lifetime of 2.5 billion),
-     * with the single word "left" or "ещё". The count is rounded to thousands and the rounded digits are drawn faint.
+     * A trace and, under it, how many heartbeats are left on average (70 a minute against a lifetime of 2.5 billion),
+     * with the single word "left" or "ещё". The count runs down to the last digit, like the age decimals; it is an average
+     * over people, so it says "on average" in the description and never claims to be a forecast.
      */
     private fun renderPulse(
         ctx: Context, cfg: WidgetConfig, birth: ZonedDateTime, widthDp: Int, heightDp: Int, background: Int,
@@ -461,7 +457,7 @@ object WidgetRenderer {
         fixedColor(cfg)?.let { v.setColorStateList(R.id.vis, "setImageTintList", ColorStateList.valueOf(it)) }
         v.setViewLayoutHeight(R.id.number_host, numberH, TypedValue.COMPLEX_UNIT_DIP)
         val (number, flows) = buildGrouped(
-            ctx, cfg, { ms -> Pulse.leftApprox(Pulse.beatsAt(birth, ms)) }, nowMs, innerW, numberH, light, dimTail = 3,
+            ctx, cfg, { ms -> Pulse.leftOnAverage(Pulse.beatsAt(birth, ms)) }, nowMs, innerW, numberH, light,
         )
         v.removeAllViews(R.id.number_host)
         v.addView(R.id.number_host, number)
