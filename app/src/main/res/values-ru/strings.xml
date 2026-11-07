@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Anicca</string>
 
     <!-- Выбор виджета -->
@@ -211,7 +211,7 @@
     <string name="widget_mala_label">Мала</string>
     <string name="widget_mala_description">Чётки из 108 бусин: каждый день сдвигается одна. В центре считаются пройденные круги.</string>
     <string name="blurb_mala">2×2. Бусина на каждый день круга в 108 дней. Красная — сегодня, число — пройденные круги.</string>
-    <plurals name="mala_laps">
+    <plurals name="mala_laps" tools:ignore="ImpliedQuantity">
         <item quantity="one">круг</item>
         <item quantity="few">круга</item>
         <item quantity="many">кругов</item>
