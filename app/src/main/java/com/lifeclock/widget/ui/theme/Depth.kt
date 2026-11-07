@@ -11,6 +11,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -41,14 +42,18 @@ fun Modifier.raised(
 @Composable
 fun Modifier.inset(
     shape: Shape = Anicca.shapes.small,
-    color: Color = MaterialTheme.colorScheme.surfaceContainerLowest,
+    color: Color = Color.Unspecified,
 ): Modifier {
     val dark = isDarkTheme()
+    // A well is always darker than the page. surfaceContainerLowest is white in light themes and near black in dark
+    // ones, so derive the fill from the page colour instead.
+    val fill = if (color != Color.Unspecified) color else
+        Color.Black.copy(alpha = if (dark) 0.30f else 0.08f).compositeOver(MaterialTheme.colorScheme.background)
     val shade = Color.Black.copy(alpha = if (dark) 0.55f else 0.16f)
     val rim = Color.White.copy(alpha = if (dark) 0.08f else 0.70f)
     return this
         .clip(shape)
-        .background(color)
+        .background(fill)
         .drawBehind {
             drawRect(Brush.verticalGradient(listOf(shade, Color.Transparent), endY = 8.dp.toPx()))
         }
