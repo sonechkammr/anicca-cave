@@ -31,10 +31,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.lifeclock.widget.R
 import com.lifeclock.widget.ui.components.Confetti
 import com.lifeclock.widget.ui.settings.SettingsScreen
+import com.lifeclock.widget.ui.settings.SetupScreen
 import com.lifeclock.widget.ui.theme.AniccaTheme
 import com.lifeclock.widget.ui.today.TodayScreen
 import com.lifeclock.widget.ui.widgets.WidgetsScreen
@@ -55,8 +55,8 @@ fun AniccaApp(vm: AppViewModel = viewModel()) {
 
     AniccaTheme(state.themeMode) {
         val nav = rememberNavController()
-        // Without a birth date the app opens on Settings; decided once, so saving does not rebuild the graph.
-        val start = remember { if (state.birth == null) Dest.Settings else Dest.Today }
+        // Without a birth date the app opens on Setup, with no navigation bar, until one is saved.
+        val start = remember { if (state.birth == null) SETUP_ROUTE else Dest.Today.route }
         val backStack by nav.currentBackStackEntryAsState()
         val current = backStack?.destination
 
@@ -66,7 +66,7 @@ fun AniccaApp(vm: AppViewModel = viewModel()) {
                 containerColor = MaterialTheme.colorScheme.background,
                 contentColor = MaterialTheme.colorScheme.onBackground,
                 bottomBar = {
-                    NavigationBar {
+                    if (current?.route != SETUP_ROUTE) NavigationBar {
                         Dest.entries.forEach { d ->
                             NavigationBarItem(
                                 selected = current?.hierarchy?.any { it.route == d.route } == true,
@@ -80,7 +80,7 @@ fun AniccaApp(vm: AppViewModel = viewModel()) {
             ) { inner ->
                 NavHost(
                     navController = nav,
-                    startDestination = start.route,
+                    startDestination = start,
                     modifier = Modifier.padding(inner),
                     // The old tab switch was instant; keep it that way.
                     enterTransition = { EnterTransition.None },
@@ -94,16 +94,22 @@ fun AniccaApp(vm: AppViewModel = viewModel()) {
                     composable(Dest.Widgets.route) {
                         WidgetsScreen(state.birth) { nav.goTab(Dest.Settings) }
                     }
+                    composable(SETUP_ROUTE) {
+                        SetupScreen { b ->
+                            vm.saveBirth(b)
+                            // Setup must not stay in the back stack under Today.
+                            nav.navigate(Dest.Today.route) { popUpTo(SETUP_ROUTE) { inclusive = true } }
+                        }
+                    }
                     composable(Dest.Settings.route) {
-                        SettingsScreen(
-                            birth = state.birth,
-                            themeMode = state.themeMode,
-                            onBirth = { b ->
-                                vm.saveBirth(b)
-                                nav.goTab(Dest.Today)
-                            },
-                            onTheme = vm::setTheme,
-                        )
+                        state.birth?.let { birth ->
+                            SettingsScreen(
+                                birth = birth,
+                                themeMode = state.themeMode,
+                                onBirth = vm::saveBirth,
+                                onTheme = vm::setTheme,
+                            )
+                        }
                     }
                 }
             }
@@ -112,8 +118,11 @@ fun AniccaApp(vm: AppViewModel = viewModel()) {
     }
 }
 
+private const val SETUP_ROUTE = "setup"
+
 private fun NavController.goTab(d: Dest) = navigate(d.route) {
-    popUpTo(graph.findStartDestination().id) { saveState = true }
+    // Tabs hang off Today, which is always in the back stack once a birth date exists.
+    popUpTo(Dest.Today.route) { saveState = true }
     launchSingleTop = true
     restoreState = true
 }

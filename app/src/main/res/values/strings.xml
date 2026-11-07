@@ -227,4 +227,26 @@
     <string name="widget_garden_label">Stone garden</string>
     <string name="widget_garden_description">A raked sand garden that is new every day. The stones and ripples are drawn from today\'s date, no two days alike.</string>
     <string name="blurb_garden">4×2. Ripples spread from the stones and meet each other. A new arrangement every day.</string>
-    <string name="palette_garden">Sand and stone</string></resources>
+    <string name="palette_garden">Sand and stone</string>
+    <!-- Setup, pickers, settings groups, language -->
+    <string name="setup_title">When were you born?</string>
+    <string name="setup_sentence">I was born on {date} at {time} in {city}</string>
+    <string name="setup_pick_date">pick a date</string>
+    <string name="sheet_date_title">Birth date</string>
+    <string name="sheet_time_title">Birth time</string>
+    <string name="sheet_city_title">Birth city</string>
+    <string name="sheet_cancel">Cancel</string>
+    <string name="sheet_ok">OK</string>
+    <string name="time_unknown">I don\'t know the time</string>
+    <string name="time_unknown_hint">12:00 is used, so the age is off by at most half a day.</string>
+    <string name="city_search">Search city</string>
+    <string name="city_none">No city found</string>
+    <string name="settings_group_birth">Birth</string>
+    <string name="setting_date">Date</string>
+    <string name="setting_time">Time</string>
+    <string name="setting_city">City</string>
+    <string name="language_title">Language</string>
+    <string name="language_system">System</string>
+    <string name="language_en" translatable="false">English</string>
+    <string name="language_ru" translatable="false">Русский</string>
+</resources>
