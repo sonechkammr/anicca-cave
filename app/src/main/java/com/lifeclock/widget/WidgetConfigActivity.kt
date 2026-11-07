@@ -52,6 +52,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.lifeclock.widget.ui.components.BirthForm
 import com.lifeclock.widget.widget.BaseLifeProvider
 import com.lifeclock.widget.widget.WidgetRefresh
 import com.lifeclock.widget.widget.WidgetRegistry
