@@ -251,4 +251,23 @@
     <string name="setting_city">Город</string>
     <string name="language_title">Язык</string>
     <string name="language_system">Системный</string>
+
+    <!-- Сегодня: Луна, жизнь по годам, поделиться -->
+    <string name="moon_title">Луна</string>
+    <string name="moon_today">Сегодня</string>
+    <string name="moon_birth">В день вашего рождения</string>
+    <string name="moon_lit">освещено %1$s</string>
+    <string name="moon_note">Приблизительно: фаза может отличаться примерно на сутки.</string>
+    <string name="phase_new">Новолуние</string>
+    <string name="phase_waxing_crescent">Растущий серп</string>
+    <string name="phase_first_quarter">Первая четверть</string>
+    <string name="phase_waxing_gibbous">Растущая Луна</string>
+    <string name="phase_full">Полнолуние</string>
+    <string name="phase_waning_gibbous">Убывающая Луна</string>
+    <string name="phase_last_quarter">Последняя четверть</string>
+    <string name="phase_waning_crescent">Убывающий серп</string>
+    <string name="lifegrid_title">Жизнь по годам</string>
+    <string name="share_image">Поделиться картинкой</string>
+    <string name="share_chooser">Поделиться</string>
+    <string-array name="impermanence_lines" />
 </resources>

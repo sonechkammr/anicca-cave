@@ -249,4 +249,24 @@
     <string name="language_system">System</string>
     <string name="language_en" translatable="false">English</string>
     <string name="language_ru" translatable="false">Русский</string>
+
+    <!-- Today: moon, life grid, share -->
+    <string name="moon_title">Moon</string>
+    <string name="moon_today">Today</string>
+    <string name="moon_birth">The day you were born</string>
+    <string name="moon_lit">%1$s lit</string>
+    <string name="moon_note">Approximate: the phase can be off by up to a day.</string>
+    <string name="phase_new">New moon</string>
+    <string name="phase_waxing_crescent">Waxing crescent</string>
+    <string name="phase_first_quarter">First quarter</string>
+    <string name="phase_waxing_gibbous">Waxing gibbous</string>
+    <string name="phase_full">Full moon</string>
+    <string name="phase_waning_gibbous">Waning gibbous</string>
+    <string name="phase_last_quarter">Last quarter</string>
+    <string name="phase_waning_crescent">Waning crescent</string>
+    <string name="lifegrid_title">Life in years</string>
+    <string name="share_image">Share as image</string>
+    <string name="share_chooser">Share</string>
+    <!-- Daily line about impermanence. Texts are added only after the project owner approves them. -->
+    <string-array name="impermanence_lines" />
 </resources>
