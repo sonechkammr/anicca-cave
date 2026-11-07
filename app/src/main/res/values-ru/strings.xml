@@ -1,0 +1,234 @@
+<resources>
+    <string name="app_name">Anicca</string>
+
+    <!-- Выбор виджета -->
+    <string name="widget_number_label">Возраст</string>
+    <string name="widget_grid_label">Жизнь по годам</string>
+    <string name="widget_ruler_label">Линейка года</string>
+    <string name="widget_dots_label">Год по дням</string>
+    <string name="widget_number_description">Возраст числом с восемью знаками после запятой, идёт в реальном времени.</string>
+    <string name="widget_grid_description">Кружок на каждый год жизни. Текущий заполняется по мере его прохождения.</string>
+    <string name="widget_ruler_description">Возраст и лента с делением на каждый день текущего года.</string>
+    <string name="widget_dots_description">Возраст и по точке на каждый день текущего года.</string>
+
+    <string name="group_age">Возраст</string>
+    <string name="group_sky">Космос</string>
+    <string name="widget_planets_label">Планеты</string>
+    <string name="widget_planets_description">Где сейчас восемь планет, вид сверху. Считается на телефоне, интернет не нужен.</string>
+    <string name="blurb_planets">2×2, растягивается до 4×4. Орбиты в сжатом масштабе, Земля красная. На 4×4 появляются названия, след за месяц и скорость Земли.</string>
+    <string name="sky_footer">%1$s · Земля %2$s км/с</string>
+    <string-array name="planet_names">
+        <item>Меркурий</item>
+        <item>Венера</item>
+        <item>Земля</item>
+        <item>Марс</item>
+        <item>Юпитер</item>
+        <item>Сатурн</item>
+        <item>Уран</item>
+        <item>Нептун</item>
+    </string-array>
+    <string name="section_palette">Цвета</string>
+    <string name="palette_system">Цвет системы</string>
+    <string name="palette_planets">Цвета планет</string>
+
+    <!-- Содержимое виджета -->
+    <string name="widget_empty">Нажмите, чтобы указать дату рождения</string>
+    <string name="age_short">%1$dм %2$dн %3$dд</string>
+    <string name="foot_elapsed">прошло %1$s</string>
+    <string name="foot_day">День %1$d из %2$d</string>
+    <string-array name="months_short">
+        <item>ЯНВ</item>
+        <item>ФЕВ</item>
+        <item>МАР</item>
+        <item>АПР</item>
+        <item>МАЙ</item>
+        <item>ИЮН</item>
+        <item>ИЮЛ</item>
+        <item>АВГ</item>
+        <item>СЕН</item>
+        <item>ОКТ</item>
+        <item>НОЯ</item>
+        <item>ДЕК</item>
+    </string-array>
+
+    <!-- Главный экран -->
+    <string name="tab_age">Возраст</string>
+    <string name="tab_widgets">Виджеты</string>
+    <string name="tab_settings">Настройки</string>
+
+    <string name="empty_title">Укажите дату рождения</string>
+    <string name="empty_body">Без неё возраст не посчитать.</string>
+    <string name="empty_action">В настройки</string>
+
+    <string name="born_on">Родились %1$s · %2$s</string>
+    <string name="age_label">Возраст</string>
+    <string name="hint_expand">Нажмите на возраст, чтобы увидеть разбивку</string>
+    <string name="hint_collapse">Нажмите на возраст, чтобы свернуть</string>
+    <string name="year_elapsed">Года прошло: %1$s</string>
+    <plurals name="birthday_in">
+        <item quantity="one">%1$d день до дня рождения</item>
+        <item quantity="few">%1$d дня до дня рождения</item>
+        <item quantity="many">%1$d дней до дня рождения</item>
+        <item quantity="other">%1$d дня до дня рождения</item>
+    </plurals>
+    <string name="stat_days">Дней прожито</string>
+    <string name="stat_seconds">Секунд прожито</string>
+
+    <string name="breakdown_title">Разбивка</string>
+    <string name="unit_years">лет</string>
+    <string name="unit_months">мес</string>
+    <string name="unit_weeks">нед</string>
+    <string name="unit_days">дн</string>
+    <string name="unit_hours">ч</string>
+    <string name="unit_minutes">мин</string>
+    <string name="unit_seconds">с</string>
+    <string name="unit_millis">мс</string>
+    <string name="total_title">Всего</string>
+    <string name="total_months">месяцев</string>
+    <string name="total_weeks">недель</string>
+    <string name="total_hours">часов</string>
+    <string name="total_minutes">минут</string>
+    <string name="total_millis">миллисекунд</string>
+
+    <!-- Вкладка «Виджеты» -->
+    <string name="widgets_title">Виджеты</string>
+    <string name="widgets_subtitle">Выберите вид. Шрифт и цвет настраиваются у самого виджета.</string>
+    <string name="blurb_number">2×2. Только возраст: годы крупно, дробная часть под ними.</string>
+    <string name="blurb_grid">2×2. Кружок на каждый прожитый год, текущий заполняется со временем.</string>
+    <string name="blurb_ruler">4×2. Возраст и лента с делением на каждый день. Месяцы считаются от дня рождения.</string>
+    <string name="blurb_dots">4×2. Возраст и по точке на каждый день года.</string>
+    <string name="widget_add">Добавить на экран</string>
+    <string name="pin_unsupported">Лаунчер не умеет добавлять виджеты отсюда. Зажмите пустое место на главном экране и откройте «Виджеты».</string>
+    <string name="opacity_title">Фон виджетов</string>
+    <string name="opacity_hint">Одно значение для всех виджетов. Они обновятся, когда вы отпустите ползунок.</string>
+    <string name="opacity_done">Виджеты обновлены</string>
+    <string name="widgets_footer">Чтобы изменить один виджет, удерживайте его и откройте настройки.</string>
+
+    <!-- Вкладка «Настройки» -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_start">Начните с даты рождения</string>
+    <string name="birth_title">Дата рождения</string>
+    <string name="theme_title">Тема</string>
+    <string name="theme_system">Системная</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="settings_footer">Цифры в виджетах двигает система, поэтому они идут и при закрытом приложении.</string>
+
+    <!-- Форма даты рождения -->
+    <string name="form_date">Дата (ГГГГ-ММ-ДД)</string>
+    <string name="form_time">Время (ЧЧ:мм, 24 часа)</string>
+    <string name="form_time_hint">Не знаете время? Оставьте 12:00.</string>
+    <string name="form_zone">Часовой пояс, например Europe/Berlin</string>
+    <string name="form_save">Сохранить</string>
+    <string name="form_err_future">Этот момент ещё не наступил</string>
+    <string name="form_err_invalid">Проверьте дату, время и часовой пояс</string>
+
+    <!-- Настройки виджета -->
+    <string name="config_title">Настройки виджета</string>
+    <string name="config_need_birth">Сначала укажите дату рождения: по ней считается возраст.</string>
+    <string name="preview_on">Предпросмотр на фоне</string>
+    <string name="preview_mid">Средний</string>
+    <string name="preview_light">Светлый</string>
+    <string name="preview_dark">Тёмный</string>
+    <string name="section_style">Вид</string>
+    <string name="section_presets">Готовые стили</string>
+    <string name="section_font">Шрифт цифр</string>
+    <string name="section_color">Цвет текста</string>
+    <string name="section_opacity">Непрозрачность фона: %1$d%%</string>
+    <string name="section_plate">Подложка для читаемости</string>
+    <string name="section_decimals">Знаков после запятой</string>
+    <string name="section_layout">Расположение</string>
+    <string name="section_horizon">Сколько лет показывать</string>
+    <string name="color_system">Системный</string>
+    <string name="color_light">Светлый</string>
+    <string name="color_dark">Тёмный</string>
+    <string name="color_custom">Свой</string>
+    <string name="plate_auto">Авто</string>
+    <string name="plate_off">Выкл.</string>
+    <string name="plate_hint">Если фон почти прозрачный, а текст плохо читается на ваших обоях, под виджет подкладывается тонкая подложка.</string>
+    <string name="decimals_hint">Если места мало, лишние знаки скроются сами.</string>
+    <string name="layout_auto">Авто</string>
+    <string name="layout_row">В одну строку</string>
+    <string name="layout_stacked">В две строки</string>
+    <string name="horizon_years">%1$d лет</string>
+    <string name="hex_label">HEX, например #FFD60A</string>
+    <string name="config_done">Готово</string>
+    <string name="font_dots">Точки</string>
+    <string name="font_clean">Гладкий</string>
+    <string name="font_segments">Сегменты</string>
+    <string name="preset_plain">Простой</string>
+    <string name="preset_dots">Точки</string>
+    <string name="preset_segments">Сегменты</string>
+    <string name="preset_card">Карточка</string>
+
+    <!-- Путь вокруг Солнца -->
+    <string name="widget_path_label">Путь вокруг Солнца</string>
+    <string name="widget_path_description">Сколько километров вы пролетели вокруг Солнца с рождения вместе с Землёй. Число бежит.</string>
+    <string name="blurb_path">2×2. Километры вокруг Солнца, число бежит. Яркая дуга — ваш текущий год жизни.</string>
+    <string name="unit_km">км</string>
+
+    <!-- Свет рождения -->
+    <string name="widget_light_label">Свет рождения</string>
+    <string name="widget_light_description">Свет, вышедший с Земли в день вашего рождения, и звёзды, которые он уже прошёл.</string>
+    <string name="blurb_light">2×2. Красное кольцо — свет вашего дня рождения. Закрашены звёзды, которые он уже прошёл, строкой ниже названа следующая.</string>
+    <string name="light_next">Дальше: %1$s</string>
+    <string name="light_in">через %1$s года</string>
+    <string name="light_none">Позади все звёзды списка</string>
+    <string-array name="star_names">
+        <item>Проксима Центавра</item>
+        <item>Альфа Центавра</item>
+        <item>Звезда Барнарда</item>
+        <item>Вольф 359</item>
+        <item>Лаланд 21185</item>
+        <item>Сириус</item>
+        <item>UV Кита</item>
+        <item>Росс 154</item>
+        <item>Росс 248</item>
+        <item>Эпсилон Эридана</item>
+        <item>Лакайль 9352</item>
+        <item>Росс 128</item>
+        <item>61 Лебедя</item>
+        <item>Процион</item>
+        <item>Эпсилон Индейца</item>
+        <item>Тау Кита</item>
+        <item>Звезда Каптейна</item>
+        <item>Альтаир</item>
+        <item>Глизе 581</item>
+        <item>Вега</item>
+        <item>Фомальгаут</item>
+        <item>Поллукс</item>
+        <item>Денебола</item>
+        <item>Арктур</item>
+        <item>TRAPPIST-1</item>
+        <item>Капелла</item>
+        <item>Кастор</item>
+        <item>Бета Живописца</item>
+        <item>Альдебаран</item>
+        <item>Регул</item>
+        <item>Алголь</item>
+    </string-array>
+    <!-- Мала -->
+    <string name="widget_mala_label">Мала</string>
+    <string name="widget_mala_description">Чётки из 108 бусин: каждый день сдвигается одна. В центре считаются пройденные круги.</string>
+    <string name="blurb_mala">2×2. Бусина на каждый день круга в 108 дней. Красная — сегодня, число — пройденные круги.</string>
+    <plurals name="mala_laps">
+        <item quantity="one">круг</item>
+        <item quantity="few">круга</item>
+        <item quantity="many">кругов</item>
+        <item quantity="other">круга</item>
+    </plurals>
+    <string name="mala_day">день %1$d из %2$d</string>
+
+    <!-- Удары сердца -->
+    <string name="widget_pulse_label">Удары сердца</string>
+    <string name="widget_pulse_description">Удары сердца с рождения при ровных 70 в минуту и сколько это от обычного итога за человеческую жизнь.</string>
+    <string name="blurb_pulse">2×2. Счёт ударов при 70 в минуту, полоска показывает вашу долю от среднего итога за жизнь, 2,5 млрд.</string>
+    <string name="pulse_unit">ударов сердца</string>
+    <string name="pulse_left">В среднем осталось:\n%1$s млрд</string>
+    <string name="pulse_beyond">Выше среднего</string>
+    <!-- Сад камней -->
+    <string name="group_calm">Покой</string>
+    <string name="widget_garden_label">Сад камней</string>
+    <string name="widget_garden_description">Сад с граблёным песком, каждый день новый. Камни и круги рисуются из сегодняшней даты, два дня подряд не повторяются.</string>
+    <string name="blurb_garden">4×2. Круги расходятся от камней и встречаются друг с другом. Каждый день новая расстановка.</string>
+    <string name="palette_garden">Песок и камень</string></resources>

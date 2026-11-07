@@ -1,0 +1,230 @@
+<resources>
+    <string name="app_name">Anicca</string>
+
+    <!-- Widget picker -->
+    <string name="widget_number_label">Age</string>
+    <string name="widget_grid_label">Life in years</string>
+    <string name="widget_ruler_label">Year ruler</string>
+    <string name="widget_dots_label">Year in days</string>
+    <string name="widget_number_description">Your age as a number with eight decimals, ticking in real time.</string>
+    <string name="widget_grid_description">One circle per year of life. The current year fills in as it passes.</string>
+    <string name="widget_ruler_description">Your age and a tape with a tick for every day of the current year.</string>
+    <string name="widget_dots_description">Your age and one dot for every day of the current year.</string>
+
+    <string name="group_age">Age</string>
+    <string name="group_sky">Space</string>
+    <string name="widget_planets_label">Planets</string>
+    <string name="widget_planets_description">Where the eight planets are right now, seen from above. Worked out on the phone, no internet needed.</string>
+    <string name="blurb_planets">2×2, stretches to 4×4. Orbits on a compressed scale, Earth in red. At 4×4 you also get names, the last month\'s track and Earth\'s speed.</string>
+    <string name="sky_footer">%1$s · Earth %2$s km/s</string>
+    <string-array name="planet_names">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+    <string name="section_palette">Colors</string>
+    <string name="palette_system">System colors</string>
+    <string name="palette_planets">Planet colors</string>
+
+    <!-- Widget content -->
+    <string name="widget_empty">Tap to enter your birth date</string>
+    <string name="age_short">%1$dm %2$dw %3$dd</string>
+    <string name="foot_elapsed">%1$s elapsed</string>
+    <string name="foot_day">Day %1$d of %2$d</string>
+    <string-array name="months_short">
+        <item>JAN</item>
+        <item>FEB</item>
+        <item>MAR</item>
+        <item>APR</item>
+        <item>MAY</item>
+        <item>JUN</item>
+        <item>JUL</item>
+        <item>AUG</item>
+        <item>SEP</item>
+        <item>OCT</item>
+        <item>NOV</item>
+        <item>DEC</item>
+    </string-array>
+
+    <!-- Main screen -->
+    <string name="tab_age">Age</string>
+    <string name="tab_widgets">Widgets</string>
+    <string name="tab_settings">Settings</string>
+
+    <string name="empty_title">Enter your birth date</string>
+    <string name="empty_body">The age can\'t be counted without it.</string>
+    <string name="empty_action">Go to settings</string>
+
+    <string name="born_on">Born %1$s · %2$s</string>
+    <string name="age_label">Age</string>
+    <string name="hint_expand">Tap the age for a full breakdown</string>
+    <string name="hint_collapse">Tap the age to collapse</string>
+    <string name="year_elapsed">%1$s of the year gone</string>
+    <plurals name="birthday_in">
+        <item quantity="one">%1$d day to your birthday</item>
+        <item quantity="other">%1$d days to your birthday</item>
+    </plurals>
+    <string name="stat_days">Days lived</string>
+    <string name="stat_seconds">Seconds lived</string>
+
+    <string name="breakdown_title">Breakdown</string>
+    <string name="unit_years">years</string>
+    <string name="unit_months">mo</string>
+    <string name="unit_weeks">wk</string>
+    <string name="unit_days">d</string>
+    <string name="unit_hours">h</string>
+    <string name="unit_minutes">min</string>
+    <string name="unit_seconds">s</string>
+    <string name="unit_millis">ms</string>
+    <string name="total_title">In total</string>
+    <string name="total_months">months</string>
+    <string name="total_weeks">weeks</string>
+    <string name="total_hours">hours</string>
+    <string name="total_minutes">minutes</string>
+    <string name="total_millis">milliseconds</string>
+
+    <!-- Widgets tab -->
+    <string name="widgets_title">Widgets</string>
+    <string name="widgets_subtitle">Pick a style. Font and color are set on the widget itself.</string>
+    <string name="blurb_number">2×2. Just your age: years big, decimals underneath.</string>
+    <string name="blurb_grid">2×2. A circle for each year lived. The current one fills in over time.</string>
+    <string name="blurb_ruler">4×2. Age plus a tape with a tick per day. Months are counted from your birthday.</string>
+    <string name="blurb_dots">4×2. Age plus a dot for every day of the year.</string>
+    <string name="widget_add">Add to home screen</string>
+    <string name="pin_unsupported">Your launcher can\'t add widgets from here. Long-press the home screen and open Widgets.</string>
+    <string name="opacity_title">Widget background</string>
+    <string name="opacity_hint">One value for all widgets. They update when you let go of the slider.</string>
+    <string name="opacity_done">Widgets updated</string>
+    <string name="widgets_footer">To change a single widget, long-press it and open its settings.</string>
+
+    <!-- Settings tab -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_start">Start with your birth date</string>
+    <string name="birth_title">Birth date</string>
+    <string name="theme_title">Theme</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="settings_footer">The system animates the digits in widgets, so they keep moving when the app is closed.</string>
+
+    <!-- Birth form -->
+    <string name="form_date">Date (YYYY-MM-DD)</string>
+    <string name="form_time">Time (HH:mm, 24-hour)</string>
+    <string name="form_time_hint">Don\'t know the time? Leave 12:00.</string>
+    <string name="form_zone">Time zone, e.g. Europe/Berlin</string>
+    <string name="form_save">Save</string>
+    <string name="form_err_future">That moment hasn\'t happened yet</string>
+    <string name="form_err_invalid">Check the date, time and time zone</string>
+
+    <!-- Widget settings screen -->
+    <string name="config_title">Widget settings</string>
+    <string name="config_need_birth">Enter your birth date first. The age is counted from it.</string>
+    <string name="preview_on">Preview on</string>
+    <string name="preview_mid">Mid-tone</string>
+    <string name="preview_light">Light</string>
+    <string name="preview_dark">Dark</string>
+    <string name="section_style">Style</string>
+    <string name="section_presets">Presets</string>
+    <string name="section_font">Digit font</string>
+    <string name="section_color">Text color</string>
+    <string name="section_opacity">Background opacity: %1$d%%</string>
+    <string name="section_plate">Readability plate</string>
+    <string name="section_decimals">Decimal places</string>
+    <string name="section_layout">Layout</string>
+    <string name="section_horizon">Life horizon</string>
+    <string name="color_system">System</string>
+    <string name="color_light">Light</string>
+    <string name="color_dark">Dark</string>
+    <string name="color_custom">Custom</string>
+    <string name="plate_auto">Auto</string>
+    <string name="plate_off">Off</string>
+    <string name="plate_hint">If the background is nearly transparent and the text is hard to read on your wallpaper, a faint plate goes behind the widget.</string>
+    <string name="decimals_hint">If space is tight, extra digits are hidden automatically.</string>
+    <string name="layout_auto">Auto</string>
+    <string name="layout_row">One line</string>
+    <string name="layout_stacked">Two lines</string>
+    <string name="horizon_years">%1$d years</string>
+    <string name="hex_label">HEX, e.g. #FFD60A</string>
+    <string name="config_done">Done</string>
+    <string name="font_dots">Dots</string>
+    <string name="font_clean">Clean</string>
+    <string name="font_segments">Segments</string>
+    <string name="preset_plain">Plain</string>
+    <string name="preset_dots">Dots</string>
+    <string name="preset_segments">Segments</string>
+    <string name="preset_card">Card</string>
+
+    <!-- Path around the Sun -->
+    <string name="widget_path_label">Path around the Sun</string>
+    <string name="widget_path_description">How many kilometres you have travelled around the Sun since you were born, riding on Earth. The number keeps running.</string>
+    <string name="blurb_path">2×2. Your kilometres around the Sun, running. The bright arc is this year of your life.</string>
+    <string name="unit_km">km</string>
+
+    <!-- Birth light -->
+    <string name="widget_light_label">Birth light</string>
+    <string name="widget_light_description">The light that left Earth on the day you were born, and the stars it has already passed.</string>
+    <string name="blurb_light">2×2. The red ring is the light of your birth day. Filled dots are stars it has passed, the line below names the next one.</string>
+    <string name="light_next">Next: %1$s</string>
+    <string name="light_in">in %1$s years</string>
+    <string name="light_none">Past every star on the list</string>
+    <string-array name="star_names">
+        <item>Proxima Centauri</item>
+        <item>Alpha Centauri</item>
+        <item>Barnard\'s Star</item>
+        <item>Wolf 359</item>
+        <item>Lalande 21185</item>
+        <item>Sirius</item>
+        <item>UV Ceti</item>
+        <item>Ross 154</item>
+        <item>Ross 248</item>
+        <item>Epsilon Eridani</item>
+        <item>Lacaille 9352</item>
+        <item>Ross 128</item>
+        <item>61 Cygni</item>
+        <item>Procyon</item>
+        <item>Epsilon Indi</item>
+        <item>Tau Ceti</item>
+        <item>Kapteyn\'s Star</item>
+        <item>Altair</item>
+        <item>Gliese 581</item>
+        <item>Vega</item>
+        <item>Fomalhaut</item>
+        <item>Pollux</item>
+        <item>Denebola</item>
+        <item>Arcturus</item>
+        <item>TRAPPIST-1</item>
+        <item>Capella</item>
+        <item>Castor</item>
+        <item>Beta Pictoris</item>
+        <item>Aldebaran</item>
+        <item>Regulus</item>
+        <item>Algol</item>
+    </string-array>
+    <!-- Mala -->
+    <string name="widget_mala_label">Mala</string>
+    <string name="widget_mala_description">A 108-bead mala: one bead moves every day. The laps you have completed are counted in the middle.</string>
+    <string name="blurb_mala">2×2. One bead for each day of a 108-day lap. The red bead is today, the number is the laps you have completed.</string>
+    <plurals name="mala_laps">
+        <item quantity="one">lap</item>
+        <item quantity="other">laps</item>
+    </plurals>
+    <string name="mala_day">day %1$d of %2$d</string>
+
+    <!-- Heartbeats -->
+    <string name="widget_pulse_label">Heartbeats</string>
+    <string name="widget_pulse_description">Heartbeats since you were born at a steady 70 a minute, and how far that is from the usual total for a human lifetime.</string>
+    <string name="blurb_pulse">2×2. A running count at 70 beats a minute, and the bar shows your share of the average lifetime total of 2.5 billion.</string>
+    <string name="pulse_unit">heartbeats</string>
+    <string name="pulse_left">On average left:\n%1$s bn</string>
+    <string name="pulse_beyond">Beyond the average</string>
+    <!-- Stone garden -->
+    <string name="group_calm">Calm</string>
+    <string name="widget_garden_label">Stone garden</string>
+    <string name="widget_garden_description">A raked sand garden that is new every day. The stones and ripples are drawn from today\'s date, no two days alike.</string>
+    <string name="blurb_garden">4×2. Ripples spread from the stones and meet each other. A new arrangement every day.</string>
+    <string name="palette_garden">Sand and stone</string></resources>

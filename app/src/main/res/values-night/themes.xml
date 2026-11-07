@@ -1,0 +1,3 @@
+<resources>
+    <style name="Theme.Anicca" parent="android:Theme.Material.NoActionBar" />
+</resources>

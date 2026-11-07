@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+<ImageView android:layout_width="70dp" android:layout_height="93dp" android:src="@drawable/dm_2" android:tint="@color/lc_text" /><ImageView android:layout_width="70dp" android:layout_height="93dp" android:src="@drawable/dm_7" android:tint="@color/lc_text" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:orientation="horizontal">
+<ImageView android:layout_width="17dp" android:layout_height="23dp" android:src="@drawable/dm_5" android:tint="@color/lc_text" />
+<ImageView android:layout_width="17dp" android:layout_height="23dp" android:src="@drawable/dm_8" android:tint="@color/lc_text" />
+<ImageView android:layout_width="17dp" android:layout_height="23dp" android:src="@drawable/dm_9" android:tint="@color/lc_text" />
+<ImageView android:layout_width="17dp" android:layout_height="23dp" android:src="@drawable/dm_4" android:tint="@color/lc_text" />
+<ImageView android:layout_width="17dp" android:layout_height="23dp" android:src="@drawable/dm_7" android:tint="@color/lc_text" />
+<ImageView android:layout_width="17dp" android:layout_height="23dp" android:src="@drawable/dm_3" android:tint="@color/lc_text" />
+<ImageView android:layout_width="17dp" android:layout_height="23dp" android:src="@drawable/dm_2" android:tint="@color/lc_text" />
+<ImageView android:layout_width="17dp" android:layout_height="23dp" android:src="@drawable/dm_8" android:tint="@color/lc_text" />
+    </LinearLayout>
+</LinearLayout>

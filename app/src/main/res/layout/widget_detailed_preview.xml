@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Static picker preview for pre-Android 15 launchers. No bare <View>, see widget_detailed.xml. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card_60"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="14dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView android:layout_width="40dp" android:layout_height="53dp" android:src="@drawable/dm_2" android:tint="@color/lc_text" />
+        <ImageView android:layout_width="40dp" android:layout_height="53dp" android:src="@drawable/dm_7" android:tint="@color/lc_text" />
+        <ImageView android:layout_width="13dp" android:layout_height="53dp" android:src="@drawable/dm_dot" android:tint="@color/lc_text" />
+        <ImageView android:layout_width="20dp" android:layout_height="27dp" android:src="@drawable/dm_5" android:tint="@color/lc_text" />
+        <ImageView android:layout_width="20dp" android:layout_height="27dp" android:src="@drawable/dm_8" android:tint="@color/lc_text" />
+        <ImageView android:layout_width="20dp" android:layout_height="27dp" android:src="@drawable/dm_9" android:tint="@color/lc_text" />
+        <ImageView android:layout_width="20dp" android:layout_height="27dp" android:src="@drawable/dm_4" android:tint="@color/lc_text" />
+        <ImageView android:layout_width="20dp" android:layout_height="27dp" android:src="@drawable/dm_7" android:tint="@color/lc_text" />
+        <ImageView android:layout_width="20dp" android:layout_height="27dp" android:src="@drawable/dm_3" android:tint="@color/lc_text" />
+        <ImageView android:layout_width="20dp" android:layout_height="27dp" android:src="@drawable/dm_2" android:tint="@color/lc_text" />
+        <ImageView android:layout_width="20dp" android:layout_height="27dp" android:src="@drawable/dm_8" android:tint="@color/lc_text" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.5"
+        android:background="@color/lc_text" />
+</LinearLayout>

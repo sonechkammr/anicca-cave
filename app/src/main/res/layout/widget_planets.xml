@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card_0">
+
+    <ImageView
+        android:id="@+id/plate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:visibility="gone" />
+
+    <!-- orbits, labels and (in system colours) the planets: tinted by the widget -->
+    <ImageView
+        android:id="@+id/vis"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:tint="@color/lc_text" />
+
+    <!-- Earth, or every planet in planet colours: not tinted -->
+    <ImageView
+        android:id="@+id/vis_color"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter" />
+</FrameLayout>

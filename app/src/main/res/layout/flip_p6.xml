@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/flipper"
+    android:layout_width="24dp"
+    android:layout_height="32dp"
+    android:autoStart="true"
+    android:flipInterval="31500"
+    android:inAnimation="@anim/lc_in"
+    android:outAnimation="@anim/lc_out" />

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Six-turn groove spiral, a red dot on the outer end. Scaled to stay inside the adaptive-icon safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:pivotX="54"
+        android:pivotY="54"
+        android:scaleX="0.86"
+        android:scaleY="0.86">
+        <path
+            android:pathData="M54,54 a3,3 0 0 1 6,0 a6,6 0 0 1 -12,0 a9,9 0 0 1 18,0 a12,12 0 0 1 -24,0 a15,15 0 0 1 30,0 a18,18 0 0 1 -36,0 a21,21 0 0 1 42,0 a24,24 0 0 1 -48,0 a27,27 0 0 1 54,0 a30,30 0 0 1 -60,0 a33,33 0 0 1 66,0 a36,36 0 0 1 -72,0"
+            android:strokeColor="@color/ic_line"
+            android:strokeLineCap="round"
+            android:strokeWidth="1.8" />
+        <path
+            android:fillColor="@color/needle"
+            android:pathData="M14,54 a4,4 0 1 0 8,0 a4,4 0 1 0 -8,0z" />
+    </group>
+</vector>
