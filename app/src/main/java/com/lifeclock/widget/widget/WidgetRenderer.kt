@@ -237,21 +237,34 @@ object WidgetRenderer {
         return Rendered(v, false, SKY_REFRESH_MS)
     }
 
-    /** Planets need no birth date, only the clock. */
+    /**
+     * Planets need no birth date, only the clock. With one, the 4x4 face shows how far each planet has gone along its own
+     * orbit since your last birthday: a bold arc behind it (a full ring once it has made a whole lap) and the share next to
+     * its name. Without one it falls back to the last month's track.
+     */
     private fun renderSky(
-        ctx: Context, cfg: WidgetConfig, widthDp: Int, heightDp: Int, background: Int,
+        ctx: Context, cfg: WidgetConfig, birth: ZonedDateTime?, widthDp: Int, heightDp: Int, background: Int,
         open: PendingIntent, nowMs: Long, backdrop: Int?,
     ): Rendered {
         val w = max(widthDp, 60).toFloat()
         val h = max(heightDp, 60).toFloat()
         val detailed = min(w, h) >= 200f
         val longitudes = DoubleArray(Planets.COUNT) { Planets.position(it, nowMs).longitude }
-        val trails = DoubleArray(Planets.COUNT) { Planets.travelled(it, nowMs, 30) }
+        val sinceBirthday = if (detailed && birth != null) {
+            val start = Trip.yearStartMs(birth, nowMs)
+            DoubleArray(Planets.COUNT) { Planets.travelledSince(it, start, nowMs) }
+        } else null
+        val trails = sinceBirthday?.let { d -> DoubleArray(d.size) { min(d[it], 360.0) } }
+            ?: DoubleArray(Planets.COUNT) { Planets.travelled(it, nowMs, 30) }
+        val planetNames = ctx.resources.getStringArray(R.array.planet_names)
+        val names = if (sinceBirthday == null) planetNames else Array(planetNames.size) {
+            planetNames[it] + " " + orbitShare(sinceBirthday[it] / 360.0)
+        }
         val date = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.getDefault()).format(Instant.ofEpochMilli(nowMs).atZone(ZoneId.systemDefault()))
         val speed = "%.1f".format(Planets.speedKmS(Planets.EARTH, nowMs))
         val layers = Visuals.sky(
             ctx, w, h, longitudes, trails, detailed, cfg.palette == 1,
-            ctx.resources.getStringArray(R.array.planet_names), ctx.getString(R.string.sky_footer, date, speed),
+            names, ctx.getString(R.string.sky_footer, date, speed), legendInner = sinceBirthday != null,
         )
 
         val v = RemoteViews(ctx.packageName, R.layout.widget_planets)
@@ -264,12 +277,19 @@ object WidgetRenderer {
         return Rendered(v, false, SKY_REFRESH_MS)
     }
 
+    /** "98%" for most; a decimal under 10 % so the slow outer planets do not all read "0%" or "1%". */
+    private fun orbitShare(share: Double): String {
+        val pct = share * 100.0
+        return if (pct < 10.0) String.format(Locale.getDefault(), "%.1f%%", pct) else String.format(Locale.getDefault(), "%.0f%%", pct)
+    }
+
     /**
      * A whole number with thin gaps between the thousands (kilometres, heartbeats, laps): head cells stay put, the tail that changes
      * inside the next couple of minutes is one flipper of pre-computed frames, like the age decimals.
      */
     private fun buildGrouped(
         ctx: Context, cfg: WidgetConfig, read: (Long) -> Long, nowMs: Long, w: Float, h: Float, light: Boolean,
+        dimTail: Int = 0,
     ): Pair<RemoteViews, Boolean> {
         val now = Trip.cells(read(nowMs))
         val digits = now.count { it >= 0 }
@@ -289,13 +309,17 @@ object WidgetRenderer {
                 frames.add(f)
             }
         }
+        // the last [dimTail] digits are drawn faint: they are rounded, not measured
+        val faint = BooleanArray(now.size)
+        var seen = 0
+        for (k in now.indices.reversed()) if (now[k] >= 0) { if (seen < dimTail) faint[k] = true; seen++ }
         var first = now.size
         for (f in frames) for (k in now.indices) if (f[k] != now[k]) { first = min(first, k); break }
         val flows = first < now.size
 
         val number = RemoteViews(ctx.packageName, R.layout.number_inline)
         for (k in 0 until first) {
-            number.addView(R.id.row1, groupedCell(ctx, cfg, now[k], width(now[k]), dh, dim = false))
+            number.addView(R.id.row1, groupedCell(ctx, cfg, now[k], width(now[k]), dh, dim = faint[k]))
         }
         if (flows) {
             val flip = RemoteViews(ctx.packageName, R.layout.flip_p8)
@@ -305,7 +329,7 @@ object WidgetRenderer {
                 val row = RemoteViews(ctx.packageName, R.layout.frame_row)
                 for (k in first until f.size) {
                     val cell = RemoteViews(ctx.packageName, R.layout.digit_cell)
-                    if (f[k] >= 0) styled(cell, R.id.cell, glyph(cfg, f[k]), cfg, dim = k >= f.size - 2)
+                    if (f[k] >= 0) styled(cell, R.id.cell, glyph(cfg, f[k]), cfg, dim = k >= f.size - 2 || faint[k])
                     cell.setViewLayoutWidth(R.id.cell, width(f[k]), dp)
                     row.addView(R.id.frame_row, cell)
                 }
@@ -402,7 +426,10 @@ object WidgetRenderer {
         return Rendered(v, false, SKY_REFRESH_MS)
     }
 
-    /** Heartbeats since birth at 70 a minute, a trace, and how far along the average lifetime total you are. */
+    /**
+     * A trace and, under it, about how many heartbeats are left on average (70 a minute against a lifetime of 2.5 billion),
+     * with the single word "left" or "ещё". The count is rounded to thousands and the rounded digits are drawn faint.
+     */
     private fun renderPulse(
         ctx: Context, cfg: WidgetConfig, birth: ZonedDateTime, widthDp: Int, heightDp: Int, background: Int,
         open: PendingIntent, nowMs: Long, light: Boolean, backdrop: Int?,
@@ -413,7 +440,7 @@ object WidgetRenderer {
         val innerH = h - 2 * PAD_GRID
         val beats = Pulse.beatsAt(birth, nowMs)
         val numberH = min(innerW / (10 * ASPECT + 3 * GAP_WIDTH), innerH * 0.3f)
-        val textH = 14f + 26f
+        val textH = 14f
         val artH = max(innerH - numberH - textH - 8f, 20f)
         val layers = Visuals.pulse(ctx, innerW, artH, Pulse.share(beats))
 
@@ -433,20 +460,13 @@ object WidgetRenderer {
         }
         fixedColor(cfg)?.let { v.setColorStateList(R.id.vis, "setImageTintList", ColorStateList.valueOf(it)) }
         v.setViewLayoutHeight(R.id.number_host, numberH, TypedValue.COMPLEX_UNIT_DIP)
-        val (number, flows) = buildGrouped(ctx, cfg, { ms -> Pulse.beatsAt(birth, ms) }, nowMs, innerW, numberH, light)
+        val (number, flows) = buildGrouped(
+            ctx, cfg, { ms -> Pulse.leftApprox(Pulse.beatsAt(birth, ms)) }, nowMs, innerW, numberH, light, dimTail = 3,
+        )
         v.removeAllViews(R.id.number_host)
         v.addView(R.id.number_host, number)
-        v.setTextViewText(R.id.unit, ctx.getString(R.string.pulse_unit))
-        val left = Pulse.leftOnAverage(beats)
-        v.setTextViewText(
-            R.id.note,
-            if (left > 0) ctx.getString(R.string.pulse_left, "%.1f".format(left / 1e9)) else ctx.getString(R.string.pulse_beyond),
-        )
-        fixedColor(cfg)?.let {
-            val soft = (it and 0x00FFFFFF) or (0xB8 shl 24)
-            v.setTextColor(R.id.unit, soft)
-            v.setTextColor(R.id.note, soft)
-        }
+        v.setTextViewText(R.id.unit, ctx.getString(R.string.pulse_left_word))
+        fixedColor(cfg)?.let { v.setTextColor(R.id.unit, (it and 0x00FFFFFF) or (0xB8 shl 24)) }
         applyPlate(v, ctx, cfg, w, h, PAD_GRID / 2f, backdrop)
         return Rendered(v, flows)
     }
@@ -494,8 +514,8 @@ object WidgetRenderer {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
         if (cfg.kind == Kind.GARDEN) return renderGarden(ctx, cfg, widthDp, heightDp, background, open, nowMs)
-        if (cfg.kind == Kind.PLANETS) return renderSky(ctx, cfg, widthDp, heightDp, background, open, nowMs, backdrop)
         val birth = birthOverride ?: Prefs.birth(ctx)
+        if (cfg.kind == Kind.PLANETS) return renderSky(ctx, cfg, birth, widthDp, heightDp, background, open, nowMs, backdrop)
         if (birth == null) {
             val e = RemoteViews(ctx.packageName, R.layout.widget_empty).apply {
                 setInt(R.id.root, "setBackgroundResource", background)

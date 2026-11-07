@@ -14,8 +14,8 @@
     <string name="group_age">Возраст</string>
     <string name="group_sky">Космос</string>
     <string name="widget_planets_label">Планеты</string>
-    <string name="widget_planets_description">Где сейчас восемь планет, вид сверху. Считается на телефоне, интернет не нужен.</string>
-    <string name="blurb_planets">2×2, растягивается до 4×4. Орбиты в сжатом масштабе, Земля красная. На 4×4 появляются названия, след за месяц и скорость Земли.</string>
+    <string name="widget_planets_description">Где сейчас восемь планет, вид сверху. На 4×4 ещё и какую часть своей орбиты прошла каждая с вашего последнего дня рождения. Считается на телефоне, интернет не нужен.</string>
+    <string name="blurb_planets">2×2, растягивается до 4×4. Орбиты в сжатом масштабе, Земля красная. На 4×4 появляются названия, скорость Земли и у каждой планеты доля орбиты, пройденная с последнего дня рождения (полное кольцо — если она сделала хотя бы круг).</string>
     <string name="sky_footer">%1$s · Земля %2$s км/с</string>
     <string-array name="planet_names">
         <item>Меркурий</item>
@@ -221,11 +221,9 @@
 
     <!-- Удары сердца -->
     <string name="widget_pulse_label">Удары сердца</string>
-    <string name="widget_pulse_description">Удары сердца с рождения при ровных 70 в минуту и сколько это от обычного итога за человеческую жизнь.</string>
-    <string name="blurb_pulse">2×2. Счёт ударов при 70 в минуту, полоска показывает вашу долю от среднего итога за жизнь, 2,5 млрд.</string>
-    <string name="pulse_unit">ударов сердца</string>
-    <string name="pulse_left">В среднем осталось:\n%1$s млрд</string>
-    <string name="pulse_beyond">Выше среднего</string>
+    <string name="widget_pulse_description">Примерно сколько ударов сердца осталось в среднем: при ровных 70 в минуту от обычного итога в 2,5 млрд за человеческую жизнь. Это среднее по людям, а не прогноз.</string>
+    <string name="pulse_left_word">ещё</string>
+    <string name="blurb_pulse">2×2. Примерно сколько ударов осталось в среднем из 2,5 млрд за типичную жизнь. Число округлено, бледные цифры — приблизительные.</string>
     <!-- Сад камней -->
     <string name="group_calm">Покой</string>
     <string name="widget_garden_label">Сад камней</string>

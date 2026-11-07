@@ -14,8 +14,8 @@
     <string name="group_age">Age</string>
     <string name="group_sky">Space</string>
     <string name="widget_planets_label">Planets</string>
-    <string name="widget_planets_description">Where the eight planets are right now, seen from above. Worked out on the phone, no internet needed.</string>
-    <string name="blurb_planets">2×2, stretches to 4×4. Orbits on a compressed scale, Earth in red. At 4×4 you also get names, the last month\'s track and Earth\'s speed.</string>
+    <string name="widget_planets_description">Where the eight planets are right now, seen from above. At 4×4 also how far each has gone round its orbit since your last birthday. Worked out on the phone, no internet needed.</string>
+    <string name="blurb_planets">2×2, stretches to 4×4. Orbits on a compressed scale, Earth in red. At 4×4 you also get names, Earth\'s speed and, for each planet, the share of its orbit travelled since your last birthday (a full ring once it has made a lap).</string>
     <string name="sky_footer">%1$s · Earth %2$s km/s</string>
     <string-array name="planet_names">
         <item>Mercury</item>
@@ -217,11 +217,9 @@
 
     <!-- Heartbeats -->
     <string name="widget_pulse_label">Heartbeats</string>
-    <string name="widget_pulse_description">Heartbeats since you were born at a steady 70 a minute, and how far that is from the usual total for a human lifetime.</string>
-    <string name="blurb_pulse">2×2. A running count at 70 beats a minute, and the bar shows your share of the average lifetime total of 2.5 billion.</string>
-    <string name="pulse_unit">heartbeats</string>
-    <string name="pulse_left">On average left:\n%1$s bn</string>
-    <string name="pulse_beyond">Beyond the average</string>
+    <string name="widget_pulse_description">About how many heartbeats are left on average, at a steady 70 a minute against the usual 2.5 billion for a human lifetime. An average over people, not a forecast.</string>
+    <string name="pulse_left_word">left</string>
+    <string name="blurb_pulse">2×2. About how many heartbeats are left on average, against 2.5 billion in a typical lifetime. The number is rounded; the faint digits are only a guess.</string>
     <!-- Stone garden -->
     <string name="group_calm">Calm</string>
     <string name="widget_garden_label">Stone garden</string>

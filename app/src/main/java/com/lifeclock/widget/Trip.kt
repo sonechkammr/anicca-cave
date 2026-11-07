@@ -32,6 +32,13 @@ object Trip {
         return km
     }
 
+    /** The moment of the latest birthday: where the current birthday-to-birthday year began. */
+    fun yearStartMs(birth: ZonedDateTime, epochMs: Long): Long {
+        val now = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMs), birth.zone)
+        val years = if (now.isAfter(birth)) ChronoUnit.YEARS.between(birth, now) else 0
+        return birth.plusYears(years).toInstant().toEpochMilli()
+    }
+
     /** Where the current year of life began on the orbit, in degrees of heliocentric longitude. */
     fun yearStartLongitude(birth: ZonedDateTime, epochMs: Long): Double {
         val now = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMs), birth.zone)

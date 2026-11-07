@@ -96,6 +96,21 @@ object Planets {
         return d
     }
 
+    /**
+     * Degrees the planet has moved along its orbit between [startMs] and [endMs], counting full laps (Mercury does about
+     * four in a year, so this can pass 360). The wrapped true longitudes say where it ended up; the unwrapped mean
+     * longitude says how many laps it made. They never differ by more than the equation of centre, under 25 degrees.
+     */
+    fun travelledSince(index: Int, startMs: Long, endMs: Long): Double {
+        if (endMs <= startMs) return 0.0
+        val b = BODIES[index]
+        val meanDelta = at(b.meanLon, centuries(endMs)) - at(b.meanLon, centuries(startMs))
+        var trueDelta = (position(index, endMs).longitude - position(index, startMs).longitude) % 360.0
+        if (trueDelta < 0) trueDelta += 360.0
+        val laps = Math.round((meanDelta - trueDelta) / 360.0)
+        return (trueDelta + 360.0 * laps).coerceAtLeast(0.0)
+    }
+
     /** Orbital speed from the vis-viva equation, km/s. */
     fun speedKmS(index: Int, epochMs: Long): Double {
         val p = position(index, epochMs)

@@ -17,5 +17,12 @@ object Pulse {
     /** Beats left until the average, or 0 once it has been passed. */
     fun leftOnAverage(beats: Long): Long = max(AVERAGE_LIFETIME_BEATS - beats, 0L)
 
+    /**
+     * Beats left on average, rounded to the nearest [step] (a thousand by default, about 14 minutes of beating). The
+     * rounding is the point: the figure is an average over people, so it is shown as an approximation, never as an exact
+     * countdown.
+     */
+    fun leftApprox(beats: Long, step: Long = 1_000L): Long = (leftOnAverage(beats) + step / 2) / step * step
+
     fun share(beats: Long): Double = (beats.toDouble() / AVERAGE_LIFETIME_BEATS).coerceIn(0.0, 1.0)
 }

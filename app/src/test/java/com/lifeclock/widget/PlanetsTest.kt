@@ -39,4 +39,48 @@ class PlanetsTest {
         assertTrue(Planets.travelled(1, t, 30) > Planets.travelled(2, t, 30))
         assertTrue(Planets.travelled(7, t, 30) < 1.0)
     }
+
+    private val dayMs = 86_400_000L
+
+    @Test
+    fun nothingTravelledOverNoTime() {
+        val t = ms(2026, 11, 7)
+        assertEquals(0.0, Planets.travelledSince(0, t, t), 1e-9)
+        assertEquals(0.0, Planets.travelledSince(0, t, t - dayMs), 1e-9)
+    }
+
+    @Test
+    fun earthTravelsAboutAFullCircleInAYear() {
+        val a = ms(2025, 11, 13)
+        val b = ms(2026, 11, 13)
+        assertEquals(360.0, Planets.travelledSince(Planets.EARTH, a, b), 1.0)
+    }
+
+    @Test
+    fun innerPlanetsLapMoreThanOnceAYear() {
+        val a = ms(2025, 11, 13)
+        val b = ms(2026, 11, 13)
+        // Mercury: 365.25 / 87.97 = 4.15 laps; Venus: 365.25 / 224.7 = 1.63 laps
+        assertEquals(4.152 * 360.0, Planets.travelledSince(0, a, b), 25.0)
+        assertEquals(1.625 * 360.0, Planets.travelledSince(1, a, b), 8.0)
+    }
+
+    @Test
+    fun outerPlanetsCoverASmallPartOfTheirOrbit() {
+        val a = ms(2025, 11, 13)
+        val b = ms(2026, 11, 13)
+        // Jupiter: 365.25 / 4332.6 = 8.4 % of an orbit; Neptune: 365.25 / 60190 = 0.6 %
+        assertEquals(0.084 * 360.0, Planets.travelledSince(4, a, b), 2.0)
+        assertEquals(0.006 * 360.0, Planets.travelledSince(7, a, b), 0.5)
+    }
+
+    @Test
+    fun partOfAYearScalesDown() {
+        val a = ms(2025, 11, 13)
+        val half = ms(2026, 5, 13)
+        val full = ms(2026, 11, 13)
+        val h = Planets.travelledSince(Planets.EARTH, a, half)
+        val f = Planets.travelledSince(Planets.EARTH, a, full)
+        assertTrue("half $h of $f", h in f * 0.45..f * 0.55)
+    }
 }

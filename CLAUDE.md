@@ -15,10 +15,16 @@ Design notes:
 - The red accent (`#E5242B`, `NowRed`) marks "now": the ruler needle, today's dot, Earth, the current mala bead,
   the current year in the life grid.
 - Heartbeats use a fixed 70 bpm and an average lifetime of 2.5 billion beats. They are shown as an average, never
-  as a forecast. The ECG is a 24-frame ViewFlipper at 71 ms per frame: one sweep is two beats, 1.71 s, which is 70 bpm.
+  as a forecast. The widget shows about how many are left (`Pulse.leftApprox`, rounded to thousands, the last three
+  digits drawn faint) and only one word, "left" / "ещё"; no other text. Past the average the count stays at 0. The ECG is
+  a 24-frame ViewFlipper at 71 ms per frame: one sweep is two beats, 1.71 s, which is 70 bpm.
 - Path: whole kilometres with thin gaps between thousands, no decimal point.
 - Planets: compressed, roughly logarithmic orbit scale; positions come from the JPL Keplerian elements
-  (valid 1800-2050), computed on the device; refreshed every 3 hours.
+  (valid 1800-2050), computed on the device; refreshed every 3 hours. At 4x4 with a birth date saved, each planet gets a
+  bold arc and a percentage for the part of its own orbit it has covered since the last birthday
+  (`Planets.travelledSince`: it passes 100 % for Mercury and Venus, which then draw as full rings). Without a birth date
+  it falls back to the last month's track. Mercury and Venus are listed in the top-left corner; the others are labelled
+  beside their planet where there is room.
 - Stone garden: ripples from several stones add up as interference and are lit from the top left. The layout is
   seeded by the date. Low contrast and anti-aliased on purpose.
 - Colours follow the system (Material You) unless the widget settings say otherwise.
@@ -82,7 +88,7 @@ load main class worker.org.gradle.process.internal.worker.GradleWorkerMain":
 CI (`.github/workflows/ci.yml`) runs the same three tasks on every push. `setup-android` is told to install no extra
 packages (its default `tools` package no longer exists).
 
-There are 53 unit tests: planet maths, trip and star calculations, the pulse and the garden generator, `LifeMath` edge
+There are 60 unit tests: planet maths, trip and star calculations, the pulse and the garden generator, `LifeMath` edge
 cases (29 February, DST gaps, before 1970, future dates, zone change), the birth rules and sentence template, the moon
 phase against real new, quarter and full moons, and the daily-line picker.
 

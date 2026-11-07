@@ -165,6 +165,8 @@ object Visuals {
     fun sky(
         ctx: Context, wDp: Float, hDp: Float, longitudes: DoubleArray, trails: DoubleArray,
         detailed: Boolean, planetColors: Boolean, names: Array<String>, footer: String,
+        /** Mercury and Venus sit too close to the Sun to label in place: list them in the top-left corner instead. */
+        legendInner: Boolean = false,
     ): SkyLayers {
         val base = surface(ctx, wDp, hDp)
         val bodies = surface(ctx, wDp, hDp)
@@ -220,21 +222,31 @@ object Visuals {
             }
             val taken = ArrayList<RectF>()
             val w = wDp * d
+            val unplaced = ArrayList<Int>()
+            if (legendInner) for (i in 0 until Planets.EARTH) unplaced.add(i)
             for (i in Planets.EARTH until ORBIT.size) {
                 val label = names[i]
                 val tw = text.measureText(label)
                 val th = text.textSize
                 val (px, py) = pos(i)
                 val gap = (BODY_DP[i] * scale + 3f) * d
-                val right = px >= cx
-                var left = if (right) px + gap else px - gap - tw
-                if (left < 2f * d || left + tw > w - 2f * d) left = if (right) px - gap - tw else px + gap
-                val top = py - th * 0.5f
-                val box = RectF(left, top, left + tw, top + th)
-                if (taken.none { RectF.intersects(it, box) }) {
-                    taken.add(box)
-                    base.canvas.drawText(label, left, py + th * 0.35f, text)
+                // beside the planet on the roomier side first, then the other side, then a little above or below
+                val xs = if (px >= cx) listOf(px + gap, px - gap - tw) else listOf(px - gap - tw, px + gap)
+                var placed: RectF? = null
+                search@ for (dy in listOf(0f, -th * 0.95f, th * 0.95f)) for (left in xs) {
+                    if (left < 2f * d || left + tw > w - 2f * d) continue
+                    val box = RectF(left, py + dy - th * 0.5f, left + tw, py + dy + th * 0.5f)
+                    if (taken.none { RectF.intersects(it, box) }) { placed = box; break@search }
                 }
+                if (placed != null) {
+                    taken.add(placed)
+                    base.canvas.drawText(label, placed.left, placed.centerY() + th * 0.35f, text)
+                } else if (legendInner) unplaced.add(i)
+            }
+            // the corner is clear of the orbit rings; three lines fit
+            unplaced.sorted().take(3).forEachIndexed { row, i ->
+                text.textAlign = Paint.Align.LEFT
+                base.canvas.drawText(names[i], 6f * d, (14f + row * 11f) * d, text)
             }
             text.textAlign = Paint.Align.CENTER
             text.alpha = 200
