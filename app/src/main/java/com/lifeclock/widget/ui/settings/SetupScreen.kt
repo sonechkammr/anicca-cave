@@ -12,6 +12,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import com.lifeclock.widget.R
 import com.lifeclock.widget.ui.components.Screen
 import com.lifeclock.widget.ui.theme.Anicca
@@ -28,7 +30,7 @@ fun SetupScreen(onSave: (ZonedDateTime) -> Unit) {
 
     Screen {
         Column {
-            Text(stringResource(R.string.setup_title), style = Anicca.type.screenTitle)
+            Text(stringResource(R.string.setup_title), style = Anicca.type.screenTitle, modifier = Modifier.semantics { heading() })
             Text(
                 stringResource(R.string.settings_start),
                 style = Anicca.type.caption, color = MaterialTheme.colorScheme.onSurfaceVariant,

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
@@ -37,9 +38,13 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -52,9 +57,12 @@ import com.lifeclock.widget.Trip
 import com.lifeclock.widget.fractionDigits
 import com.lifeclock.widget.grouped
 import com.lifeclock.widget.pct
+import com.lifeclock.widget.ui.components.ContentMaxWidth
 import com.lifeclock.widget.ui.components.EmptyPrompt
 import com.lifeclock.widget.ui.components.GroupCard
 import com.lifeclock.widget.ui.components.ValueRow
+import com.lifeclock.widget.ui.settings.formatBirthDate
+import com.lifeclock.widget.ui.settings.localizedCityName
 import com.lifeclock.widget.ui.theme.Anicca
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -105,7 +113,8 @@ fun TodayScreen(birth: ZonedDateTime?, nowMs: State<Long>, onGoSettings: () -> U
     val appName = stringResource(R.string.app_name)
     val chooser = stringResource(R.string.share_chooser)
 
-    Box(Modifier.fillMaxSize()) {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
+    Box(Modifier.widthIn(max = ContentMaxWidth).fillMaxSize()) {
         LazyColumn(
             state = listState,
             modifier = Modifier.fillMaxSize(),
@@ -116,7 +125,11 @@ fun TodayScreen(birth: ZonedDateTime?, nowMs: State<Long>, onGoSettings: () -> U
             item(key = "headerRoom") { Spacer(Modifier.height(with(density) { expandedPx.toDp() })) }
             item(key = "born") {
                 Text(
-                    stringResource(R.string.born_on, birth.toLocalDate().toString(), birth.zone.id),
+                    stringResource(
+                        R.string.born_on,
+                        formatBirthDate(birth.toLocalDate()),
+                        localizedCityName(birth.zone.id, LocalConfiguration.current.locales[0]),
+                    ),
                     style = Anicca.type.caption, color = cs.onSurfaceVariant,
                 )
             }
@@ -165,10 +178,11 @@ fun TodayScreen(birth: ZonedDateTime?, nowMs: State<Long>, onGoSettings: () -> U
             }
             item(key = "grid") {
                 GroupCard(stringResource(R.string.lifegrid_title)) {
+                    val gridDescription = stringResource(R.string.lifegrid_title) + ": " + pluralStringResource(R.plurals.years_count, snap.years, snap.years)
                     LifeGrid(
                         years = snap.years, share = snap.yearProgress,
                         filled = cs.onSurface, empty = cs.onSurface.copy(alpha = 0.17f),
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().semantics { contentDescription = gridDescription },
                     )
                     Spacer(Modifier.height(sp.m))
                     OutlinedButton(
@@ -201,6 +215,7 @@ fun TodayScreen(birth: ZonedDateTime?, nowMs: State<Long>, onGoSettings: () -> U
                 },
         )
     }
+    }
 }
 
 /** The age. Expanded it is the big number with its progress; collapsed it is one compact line. */
@@ -212,6 +227,13 @@ private fun AgeHeader(birth: ZonedDateTime, nowMs: State<Long>, collapse: Float,
     val now = ZonedDateTime.ofInstant(Instant.ofEpochMilli(nowMs.value), birth.zone)
     val s = LifeMath.snapshot(birth, now)
     val decimals = fractionDigits(s.yearProgress).joinToString("")
+    // In landscape there is little height: a smaller number leaves room for the list.
+    val short = LocalConfiguration.current.screenHeightDp < 500
+    val heroMax = if (short) 56f else 88f
+    val fractionMax = if (short) 22f else 30f
+    // Read once as a sentence, not digit by digit: the decimals change ten times a second.
+    val description = stringResource(R.string.age_label) + ": " + pluralStringResource(R.plurals.years_count, s.years, s.years) +
+        ". " + stringResource(R.string.year_elapsed, s.yearProgress.pct(2))
 
     Column(
         modifier
@@ -223,15 +245,15 @@ private fun AgeHeader(birth: ZonedDateTime, nowMs: State<Long>, collapse: Float,
         Collapsing(f) {
             Text(stringResource(R.string.age_label), style = Anicca.type.caption, color = cs.onSurfaceVariant)
         }
-        Row(verticalAlignment = Alignment.Bottom) {
+        Row(verticalAlignment = Alignment.Bottom, modifier = Modifier.clearAndSetSemantics { contentDescription = description }) {
             Text(
                 s.years.toString(),
-                style = Anicca.type.hero.copy(fontSize = lerp(88f, 30f, f).sp, letterSpacing = lerp(-3f, -0.5f, f).sp),
+                style = Anicca.type.hero.copy(fontSize = lerp(heroMax, 30f, f).sp, letterSpacing = lerp(-3f, -0.5f, f).sp),
                 modifier = Modifier.alignByBaseline(),
             )
             Text(
                 ".$decimals",
-                style = Anicca.type.heroFraction.copy(fontSize = lerp(30f, 16f, f).sp),
+                style = Anicca.type.heroFraction.copy(fontSize = lerp(fractionMax, 16f, f).sp),
                 modifier = Modifier.alignByBaseline(),
             )
         }
@@ -269,7 +291,8 @@ private fun Collapsing(f: Float, content: @Composable () -> Unit) {
                 val h = (p.height * (1f - f)).roundToInt()
                 layout(p.width, h) { p.placeRelative(0, 0) }
             }
-            .graphicsLayer { alpha = 1f - f },
+            // Fade faster than the height shrinks, so no clipped sliver of text is left at the edges.
+            .graphicsLayer { alpha = (1f - f * 2f).coerceAtLeast(0f) },
     ) { content() }
 }
 

@@ -15,6 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.lifeclock.widget.ui.theme.Anicca
 import com.lifeclock.widget.ui.theme.raised
@@ -23,7 +25,12 @@ import com.lifeclock.widget.ui.theme.raised
 @Composable
 fun GroupCard(title: String?, modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     Column(modifier, verticalArrangement = Arrangement.spacedBy(Anicca.spacing.s)) {
-        if (title != null) Text(title, style = Anicca.type.label, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        if (title != null) {
+            Text(
+                title, style = Anicca.type.label, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.semantics { heading() },
+            )
+        }
         Column(Modifier.fillMaxWidth().raised(Anicca.shapes.medium).padding(Anicca.spacing.l), content = content)
     }
 }

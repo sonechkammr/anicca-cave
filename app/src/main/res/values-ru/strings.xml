@@ -64,7 +64,7 @@
     <string name="age_label">Возраст</string>
     <string name="hint_expand">Нажмите на возраст, чтобы увидеть разбивку</string>
     <string name="hint_collapse">Нажмите на возраст, чтобы свернуть</string>
-    <string name="year_elapsed">Года прошло: %1$s</string>
+    <string name="year_elapsed">Прошло %1$s года</string>
     <plurals name="birthday_in">
         <item quantity="one">%1$d день до дня рождения</item>
         <item quantity="few">%1$d дня до дня рождения</item>
@@ -275,4 +275,12 @@
     <string name="widget_customize">Настроить</string>
     <string name="widget_customize_hint">Сначала добавьте виджет на экран, затем его можно настроить.</string>
     <string name="widget_position">%1$d из %2$d</string>
+
+    <!-- Озвучивается программой чтения с экрана -->
+    <plurals name="years_count">
+        <item quantity="one">%d год</item>
+        <item quantity="few">%d года</item>
+        <item quantity="many">%d лет</item>
+        <item quantity="other">%d года</item>
+    </plurals>
 </resources>

@@ -22,7 +22,7 @@ private class Particle(val angle: Float, val speed: Float, val radius: Float, va
 /** Dots flying out from the upper middle. Plays whenever [trigger] changes to a new non-zero value. */
 @Composable
 fun Confetti(trigger: Int, modifier: Modifier = Modifier) {
-    if (trigger == 0) return
+    if (trigger == 0 || rememberReducedMotion()) return
     val progress = remember(trigger) { Animatable(0f) }
     val particles = remember(trigger) {
         val rnd = java.util.Random()

@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.Role
 import com.lifeclock.widget.R
 import com.lifeclock.widget.ui.components.Screen
@@ -52,7 +54,7 @@ fun SettingsScreen(
     }
 
     Screen {
-        Text(stringResource(R.string.settings_title), style = Anicca.type.screenTitle)
+        Text(stringResource(R.string.settings_title), style = Anicca.type.screenTitle, modifier = Modifier.semantics { heading() })
 
         SettingsGroup(stringResource(R.string.settings_group_birth)) {
             SettingsRow(stringResource(R.string.setting_date), formatBirthDate(birth.toLocalDate())) { open = BirthField.Date }

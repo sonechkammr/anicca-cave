@@ -18,6 +18,9 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -66,14 +69,23 @@ fun AniccaApp(vm: AppViewModel = viewModel()) {
                 containerColor = MaterialTheme.colorScheme.background,
                 contentColor = MaterialTheme.colorScheme.onBackground,
                 bottomBar = {
-                    if (current?.route != SETUP_ROUTE) NavigationBar {
-                        Dest.entries.forEach { d ->
-                            NavigationBarItem(
-                                selected = current?.hierarchy?.any { it.route == d.route } == true,
-                                onClick = { nav.goTab(d) },
-                                icon = { Icon(d.icon, contentDescription = null) },
-                                label = { Text(stringResource(d.label)) },
-                            )
+                    if (current?.route != SETUP_ROUTE) {
+                        // The bar has a fixed height and three labels to fit, so its text stops growing at 130 %
+                        // while the rest of the app keeps following the system font size.
+                        val density = LocalDensity.current
+                        CompositionLocalProvider(
+                            LocalDensity provides Density(density.density, fontScale = minOf(density.fontScale, 1.3f)),
+                        ) {
+                            NavigationBar {
+                                Dest.entries.forEach { d ->
+                                    NavigationBarItem(
+                                        selected = current?.hierarchy?.any { it.route == d.route } == true,
+                                        onClick = { nav.goTab(d) },
+                                        icon = { Icon(d.icon, contentDescription = null) },
+                                        label = { Text(stringResource(d.label), maxLines = 1) },
+                                    )
+                                }
+                            }
                         }
                     }
                 },

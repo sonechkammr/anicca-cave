@@ -274,4 +274,10 @@
     <string name="widget_customize">Customize</string>
     <string name="widget_customize_hint">Add the widget first, then you can customize it.</string>
     <string name="widget_position">%1$d of %2$d</string>
+
+    <!-- Read aloud by screen readers -->
+    <plurals name="years_count">
+        <item quantity="one">%d year</item>
+        <item quantity="other">%d years</item>
+    </plurals>
 </resources>
