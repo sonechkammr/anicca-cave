@@ -14,18 +14,18 @@ Design notes:
   in sync, with plural forms for Russian. Lint fails the build on `MissingTranslation` and `HardcodedText`.
 - The red accent (`#E5242B`, `NowRed`) marks "now": the ruler needle, today's dot, Earth, the current mala bead,
   the current year in the life grid.
-- Heartbeats use a fixed 70 bpm and an average lifetime of 2.5 billion beats. They are shown as an average, never
+- Heartbeats use a fixed 70 bpm and an average lifetime of 2.85 billion beats (about 77 years). They are shown as an average, never
   as a forecast. The widget shows how many are left on average, to the last digit and running down like the age
   decimals (do not round it: the moving digits are the point of the app), and only one word, "left" / "ещё"; no other
   text. Past the average the count stays at 0. The ECG is
   a 24-frame ViewFlipper at 71 ms per frame: one sweep is two beats, 1.71 s, which is 70 bpm.
 - Path: whole kilometres with thin gaps between thousands, no decimal point.
 - Planets: compressed, roughly logarithmic orbit scale; positions come from the JPL Keplerian elements
-  (valid 1800-2050), computed on the device; refreshed every 3 hours. At 4x4 with a birth date saved, each planet gets a
-  bold arc and a percentage for the part of its own orbit it has covered since the last birthday
-  (`Planets.travelledSince`: it passes 100 % for Mercury and Venus, which then draw as full rings). Without a birth date
-  it falls back to the last month's track. Mercury and Venus are listed in the top-left corner; the others are labelled
-  beside their planet where there is room.
+  (valid 1800-2050), computed on the device; refreshed every 3 hours. At 4x4 with a birth date saved, each planet leaves a translucent trail in its own colour (Earth red, with
+  the planet palette every planet in its colour, otherwise the widget tint) for everything it has travelled since the
+  last birthday (`Planets.travelledSince`, not capped at one lap). Each lap is its own translucent pass, so places a
+  fast planet crossed again and again get darker. No numbers on it, on purpose. Without a birth date it falls back to the
+  last month's track.
 - Stone garden: ripples from several stones add up as interference and are lit from the top left. The layout is
   seeded by the date. Low contrast and anti-aliased on purpose.
 - Colours follow the system (Material You) unless the widget settings say otherwise.

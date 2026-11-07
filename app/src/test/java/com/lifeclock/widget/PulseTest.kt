@@ -22,13 +22,13 @@ class PulseTest {
 
     @Test
     fun leftOnAverageNeverGoesNegative() {
-        assertEquals(1_500_000_000L, Pulse.leftOnAverage(1_000_000_000L))
-        assertEquals(0L, Pulse.leftOnAverage(3_000_000_000L))
+        assertEquals(1_850_000_000L, Pulse.leftOnAverage(1_000_000_000L))
+        assertEquals(0L, Pulse.leftOnAverage(3_500_000_000L))
     }
 
     @Test
     fun shareIsClamped() {
-        assertEquals(0.4, Pulse.share(1_000_000_000L), 1e-9)
+        assertEquals(1_000_000_000.0 / 2_850_000_000.0, Pulse.share(1_000_000_000L), 1e-9)
         assertEquals(1.0, Pulse.share(9_000_000_000L), 1e-9)
     }
 

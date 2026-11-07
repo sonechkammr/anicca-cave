@@ -160,13 +160,12 @@ object Visuals {
     )
     private const val SUN_COLOR = 0xFFEF9F27.toInt()
     private const val EARTH_RED = 0xFFE5242B.toInt()
+    private const val TRAIL_ALPHA = 90
 
     /** The solar system from above, [longitudes] and [trails] in degrees for each planet. */
     fun sky(
         ctx: Context, wDp: Float, hDp: Float, longitudes: DoubleArray, trails: DoubleArray,
         detailed: Boolean, planetColors: Boolean, names: Array<String>, footer: String,
-        /** Mercury and Venus sit too close to the Sun to label in place: list them in the top-left corner instead. */
-        legendInner: Boolean = false,
     ): SkyLayers {
         val base = surface(ctx, wDp, hDp)
         val bodies = surface(ctx, wDp, hDp)
@@ -190,12 +189,23 @@ object Visuals {
             for (i in ORBIT.indices) {
                 val r = outer * ORBIT[i]
                 val box = RectF(cx - r, cy - r, cx + r, cy + r)
-                val earth = i == Planets.EARTH
-                val p = if (earth && !planetColors) Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = EARTH_RED; alpha = 170; style = Paint.Style.STROKE; strokeWidth = 1.8f * d; strokeCap = Paint.Cap.ROUND
-                } else paint(150, 1.8f * d).apply { strokeCap = Paint.Cap.ROUND }
-                val canvas = if (earth && !planetColors) bodies.canvas else base.canvas
-                canvas.drawArc(box, (-longitudes[i]).toFloat(), trails[i].toFloat(), false, p)
+                // The trail has the planet's own colour: Earth red and, with planet colours, every planet in its colour
+                // (those go on the untinted layer); otherwise it is the widget tint like the planet itself.
+                val untinted = planetColors || i == Planets.EARTH
+                val p = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = when { planetColors -> BODY_COLOR[i]; i == Planets.EARTH -> EARTH_RED; else -> 0xFFFFFFFF.toInt() }
+                    alpha = TRAIL_ALPHA
+                    style = Paint.Style.STROKE
+                    strokeWidth = 3f * d
+                    strokeCap = Paint.Cap.BUTT   // round caps would show as dark dots where passes meet
+                }
+                val canvas = if (untinted) bodies.canvas else base.canvas
+                // One translucent pass per lap, all ending at the planet: places it has crossed more often get darker.
+                var left = trails[i]
+                while (left > 0.0) {
+                    canvas.drawArc(box, (-longitudes[i]).toFloat(), minOf(left, 360.0).toFloat(), false, p)
+                    left -= 360.0
+                }
             }
         }
 
@@ -222,8 +232,6 @@ object Visuals {
             }
             val taken = ArrayList<RectF>()
             val w = wDp * d
-            val unplaced = ArrayList<Int>()
-            if (legendInner) for (i in 0 until Planets.EARTH) unplaced.add(i)
             for (i in Planets.EARTH until ORBIT.size) {
                 val label = names[i]
                 val tw = text.measureText(label)
@@ -241,12 +249,7 @@ object Visuals {
                 if (placed != null) {
                     taken.add(placed)
                     base.canvas.drawText(label, placed.left, placed.centerY() + th * 0.35f, text)
-                } else if (legendInner) unplaced.add(i)
-            }
-            // the corner is clear of the orbit rings; three lines fit
-            unplaced.sorted().take(3).forEachIndexed { row, i ->
-                text.textAlign = Paint.Align.LEFT
-                base.canvas.drawText(names[i], 6f * d, (14f + row * 11f) * d, text)
+                }
             }
             text.textAlign = Paint.Align.CENTER
             text.alpha = 200

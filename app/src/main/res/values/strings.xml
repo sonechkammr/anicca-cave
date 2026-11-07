@@ -14,8 +14,8 @@
     <string name="group_age">Age</string>
     <string name="group_sky">Space</string>
     <string name="widget_planets_label">Planets</string>
-    <string name="widget_planets_description">Where the eight planets are right now, seen from above. At 4×4 also how far each has gone round its orbit since your last birthday. Worked out on the phone, no internet needed.</string>
-    <string name="blurb_planets">2×2, stretches to 4×4. Orbits on a compressed scale, Earth in red. At 4×4 you also get names, Earth\'s speed and, for each planet, the share of its orbit travelled since your last birthday (a full ring once it has made a lap).</string>
+    <string name="widget_planets_description">Where the eight planets are right now, seen from above. At 4×4 each planet also leaves a translucent trail in its own colour for the way it has gone since your last birthday. Worked out on the phone, no internet needed.</string>
+    <string name="blurb_planets">2×2, stretches to 4×4. Orbits on a compressed scale, Earth in red. At 4×4 you also get names, Earth\'s speed and a translucent trail behind each planet in its own colour: all the way it has gone since your last birthday, darker wherever it has gone round more than once.</string>
     <string name="sky_footer">%1$s · Earth %2$s km/s</string>
     <string-array name="planet_names">
         <item>Mercury</item>
@@ -217,9 +217,9 @@
 
     <!-- Heartbeats -->
     <string name="widget_pulse_label">Heartbeats</string>
-    <string name="widget_pulse_description">How many heartbeats are left on average, running down at a steady 70 a minute from the usual 2.5 billion for a human lifetime. An average over people, not a forecast.</string>
+    <string name="widget_pulse_description">How many heartbeats are left on average, running down at a steady 70 a minute from the usual 2.85 billion for a human lifetime. An average over people, not a forecast.</string>
     <string name="pulse_left_word">left</string>
-    <string name="blurb_pulse">2×2. How many heartbeats are left on average, running down at 70 a minute from 2.5 billion in a typical lifetime. The digits keep moving.</string>
+    <string name="blurb_pulse">2×2. How many heartbeats are left on average, running down at 70 a minute from 2.85 billion in a typical lifetime. The digits keep moving.</string>
     <!-- Stone garden -->
     <string name="group_calm">Calm</string>
     <string name="widget_garden_label">Stone garden</string>

@@ -238,9 +238,9 @@ object WidgetRenderer {
     }
 
     /**
-     * Planets need no birth date, only the clock. With one, the 4x4 face shows how far each planet has gone along its own
-     * orbit since your last birthday: a bold arc behind it (a full ring once it has made a whole lap) and the share next to
-     * its name. Without one it falls back to the last month's track.
+     * Planets need no birth date, only the clock. With one, the 4x4 face draws behind each planet a translucent trail in
+     * its own colour for everything it has travelled since your last birthday, one translucent pass per lap, so the
+     * stretches a fast planet has crossed again and again grow darker. Without one it falls back to the last month's track.
      */
     private fun renderSky(
         ctx: Context, cfg: WidgetConfig, birth: ZonedDateTime?, widthDp: Int, heightDp: Int, background: Int,
@@ -250,21 +250,15 @@ object WidgetRenderer {
         val h = max(heightDp, 60).toFloat()
         val detailed = min(w, h) >= 200f
         val longitudes = DoubleArray(Planets.COUNT) { Planets.position(it, nowMs).longitude }
-        val sinceBirthday = if (detailed && birth != null) {
+        val trails = if (detailed && birth != null) {
             val start = Trip.yearStartMs(birth, nowMs)
-            DoubleArray(Planets.COUNT) { Planets.travelledSince(it, start, nowMs) }
-        } else null
-        val trails = sinceBirthday?.let { d -> DoubleArray(d.size) { min(d[it], 360.0) } }
-            ?: DoubleArray(Planets.COUNT) { Planets.travelled(it, nowMs, 30) }
-        val planetNames = ctx.resources.getStringArray(R.array.planet_names)
-        val names = if (sinceBirthday == null) planetNames else Array(planetNames.size) {
-            planetNames[it] + " " + orbitShare(sinceBirthday[it] / 360.0)
-        }
+            DoubleArray(Planets.COUNT) { Planets.travelledSince(it, start, nowMs) }   // not capped: laps count
+        } else DoubleArray(Planets.COUNT) { Planets.travelled(it, nowMs, 30) }
         val date = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.getDefault()).format(Instant.ofEpochMilli(nowMs).atZone(ZoneId.systemDefault()))
         val speed = "%.1f".format(Planets.speedKmS(Planets.EARTH, nowMs))
         val layers = Visuals.sky(
             ctx, w, h, longitudes, trails, detailed, cfg.palette == 1,
-            names, ctx.getString(R.string.sky_footer, date, speed), legendInner = sinceBirthday != null,
+            ctx.resources.getStringArray(R.array.planet_names), ctx.getString(R.string.sky_footer, date, speed),
         )
 
         val v = RemoteViews(ctx.packageName, R.layout.widget_planets)
@@ -275,12 +269,6 @@ object WidgetRenderer {
         fixedColor(cfg)?.let { v.setColorStateList(R.id.vis, "setImageTintList", ColorStateList.valueOf(it)) }
         applyPlate(v, ctx, cfg, w, h, PAD_NUMBER / 2f, backdrop)
         return Rendered(v, false, SKY_REFRESH_MS)
-    }
-
-    /** "98%" for most; a decimal under 10 % so the slow outer planets do not all read "0%" or "1%". */
-    private fun orbitShare(share: Double): String {
-        val pct = share * 100.0
-        return if (pct < 10.0) String.format(Locale.getDefault(), "%.1f%%", pct) else String.format(Locale.getDefault(), "%.0f%%", pct)
     }
 
     /**
@@ -422,7 +410,7 @@ object WidgetRenderer {
     }
 
     /**
-     * A trace and, under it, how many heartbeats are left on average (70 a minute against a lifetime of 2.5 billion),
+     * A trace and, under it, how many heartbeats are left on average (70 a minute against a lifetime of 2.85 billion),
      * with the single word "left" or "ещё". The count runs down to the last digit, like the age decimals; it is an average
      * over people, so it says "on average" in the description and never claims to be a forecast.
      */
