@@ -27,6 +27,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures { compose = true }
+
+    lint {
+        // A string that exists in only one language, or text typed into a layout, fails the build.
+        error += setOf("MissingTranslation", "HardcodedText")
+        abortOnError = true
+    }
 }
 
 kotlin {
