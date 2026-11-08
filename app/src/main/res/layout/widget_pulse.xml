@@ -64,15 +64,5 @@
             android:textColor="@color/lc_text2"
             android:textSize="10sp" />
 
-        <TextView
-            android:id="@+id/note"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:gravity="center_horizontal"
-            android:includeFontPadding="false"
-            android:maxLines="2"
-            android:textColor="@color/lc_text2"
-            android:textSize="10sp" />
     </LinearLayout>
 </FrameLayout>

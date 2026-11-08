@@ -6,8 +6,8 @@ import kotlin.math.max
 /** Heartbeats since birth at a fixed resting rate, against the usual total for a human lifetime. */
 object Pulse {
     const val BEATS_PER_MINUTE = 70
-    /** About 70 beats a minute over roughly 68 years. An average over people, not a forecast. */
-    const val AVERAGE_LIFETIME_BEATS = 2_500_000_000L
+    /** About 70 beats a minute over roughly 77 years. An average over people, not a forecast. */
+    const val AVERAGE_LIFETIME_BEATS = 2_850_000_000L
 
     fun beatsAt(birth: ZonedDateTime, epochMs: Long): Long {
         val ms = max(epochMs - birth.toInstant().toEpochMilli(), 0L)

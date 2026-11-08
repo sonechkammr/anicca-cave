@@ -14,8 +14,8 @@
     <string name="group_age">Age</string>
     <string name="group_sky">Space</string>
     <string name="widget_planets_label">Planets</string>
-    <string name="widget_planets_description">Where the eight planets are right now, seen from above. Worked out on the phone, no internet needed.</string>
-    <string name="blurb_planets">2×2, stretches to 4×4. Orbits on a compressed scale, Earth in red. At 4×4 you also get names, the last month\'s track and Earth\'s speed.</string>
+    <string name="widget_planets_description">Where the eight planets are right now, seen from above. At 4×4 each planet also leaves a translucent trail in its own colour for the way it has gone since your last birthday. Worked out on the phone, no internet needed.</string>
+    <string name="blurb_planets">2×2, stretches to 4×4. Orbits on a compressed scale, Earth in red. At 4×4 you also get names, Earth\'s speed and a translucent trail behind each planet in its own colour: all the way it has gone since your last birthday, darker wherever it has gone round more than once.</string>
     <string name="sky_footer">%1$s · Earth %2$s km/s</string>
     <string-array name="planet_names">
         <item>Mercury</item>
@@ -63,7 +63,6 @@
     <string name="born_on">Born %1$s · %2$s</string>
     <string name="age_label">Age</string>
     <string name="hint_expand">Tap the age for a full breakdown</string>
-    <string name="hint_collapse">Tap the age to collapse</string>
     <string name="year_elapsed">%1$s of the year gone</string>
     <plurals name="birthday_in">
         <item quantity="one">%1$d day to your birthday</item>
@@ -80,7 +79,6 @@
     <string name="unit_hours">h</string>
     <string name="unit_minutes">min</string>
     <string name="unit_seconds">s</string>
-    <string name="unit_millis">ms</string>
     <string name="total_title">In total</string>
     <string name="total_months">months</string>
     <string name="total_weeks">weeks</string>
@@ -217,14 +215,65 @@
 
     <!-- Heartbeats -->
     <string name="widget_pulse_label">Heartbeats</string>
-    <string name="widget_pulse_description">Heartbeats since you were born at a steady 70 a minute, and how far that is from the usual total for a human lifetime.</string>
-    <string name="blurb_pulse">2×2. A running count at 70 beats a minute, and the bar shows your share of the average lifetime total of 2.5 billion.</string>
-    <string name="pulse_unit">heartbeats</string>
-    <string name="pulse_left">On average left:\n%1$s bn</string>
-    <string name="pulse_beyond">Beyond the average</string>
+    <string name="widget_pulse_description">How many heartbeats are left on average, running down at a steady 70 a minute from the usual 2.85 billion for a human lifetime. An average over people, not a forecast.</string>
+    <string name="pulse_left_word">left</string>
+    <string name="blurb_pulse">2×2. How many heartbeats are left on average, running down at 70 a minute from 2.85 billion in a typical lifetime. The digits keep moving.</string>
     <!-- Stone garden -->
     <string name="group_calm">Calm</string>
     <string name="widget_garden_label">Stone garden</string>
     <string name="widget_garden_description">A raked sand garden that is new every day. The stones and ripples are drawn from today\'s date, no two days alike.</string>
     <string name="blurb_garden">4×2. Ripples spread from the stones and meet each other. A new arrangement every day.</string>
-    <string name="palette_garden">Sand and stone</string></resources>
+    <string name="palette_garden">Sand and stone</string>
+    <!-- Setup, pickers, settings groups, language -->
+    <string name="setup_title">When were you born?</string>
+    <string name="setup_sentence">I was born on {date} at {time} in {city}</string>
+    <string name="setup_pick_date">pick a date</string>
+    <string name="sheet_date_title">Birth date</string>
+    <string name="sheet_time_title">Birth time</string>
+    <string name="sheet_city_title">Birth city</string>
+    <string name="sheet_cancel">Cancel</string>
+    <string name="sheet_ok">OK</string>
+    <string name="time_unknown">I don\'t know the time</string>
+    <string name="time_unknown_hint">12:00 is used, so the age is off by at most half a day.</string>
+    <string name="city_search">Search city</string>
+    <string name="city_none">No city found</string>
+    <string name="settings_group_birth">Birth</string>
+    <string name="setting_date">Date</string>
+    <string name="setting_time">Time</string>
+    <string name="setting_city">City</string>
+    <string name="language_title">Language</string>
+    <string name="language_system">System</string>
+    <string name="language_en" translatable="false">English</string>
+    <string name="language_ru" translatable="false">Русский</string>
+
+    <!-- Today: moon, life grid, share -->
+    <string name="moon_title">Moon</string>
+    <string name="moon_today">Today</string>
+    <string name="moon_birth">The day you were born</string>
+    <string name="moon_lit">%1$s lit</string>
+    <string name="moon_note">Approximate: the phase can be off by up to a day.</string>
+    <string name="phase_new">New moon</string>
+    <string name="phase_waxing_crescent">Waxing crescent</string>
+    <string name="phase_first_quarter">First quarter</string>
+    <string name="phase_waxing_gibbous">Waxing gibbous</string>
+    <string name="phase_full">Full moon</string>
+    <string name="phase_waning_gibbous">Waning gibbous</string>
+    <string name="phase_last_quarter">Last quarter</string>
+    <string name="phase_waning_crescent">Waning crescent</string>
+    <string name="lifegrid_title">Life in years</string>
+    <string name="share_image">Share as image</string>
+    <string name="share_chooser">Share</string>
+    <!-- Daily line about impermanence. Texts are added only after the project owner approves them. -->
+    <string-array name="impermanence_lines" />
+
+    <!-- Widgets showcase -->
+    <string name="widget_customize">Customize</string>
+    <string name="widget_customize_hint">Add the widget first, then you can customize it.</string>
+    <string name="widget_position">%1$d of %2$d</string>
+
+    <!-- Read aloud by screen readers -->
+    <plurals name="years_count">
+        <item quantity="one">%d year</item>
+        <item quantity="other">%d years</item>
+    </plurals>
+</resources>

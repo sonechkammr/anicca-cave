@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Anicca</string>
 
     <!-- Выбор виджета -->
@@ -14,8 +14,8 @@
     <string name="group_age">Возраст</string>
     <string name="group_sky">Космос</string>
     <string name="widget_planets_label">Планеты</string>
-    <string name="widget_planets_description">Где сейчас восемь планет, вид сверху. Считается на телефоне, интернет не нужен.</string>
-    <string name="blurb_planets">2×2, растягивается до 4×4. Орбиты в сжатом масштабе, Земля красная. На 4×4 появляются названия, след за месяц и скорость Земли.</string>
+    <string name="widget_planets_description">Где сейчас восемь планет, вид сверху. На 4×4 за каждой планетой ещё тянется полупрозрачная полоса её цвета: путь, который она прошла с вашего последнего дня рождения. Считается на телефоне, интернет не нужен.</string>
+    <string name="blurb_planets">2×2, растягивается до 4×4. Орбиты в сжатом масштабе, Земля красная. На 4×4 появляются названия, скорость Земли и за каждой планетой полупрозрачная полоса её цвета: весь путь с последнего дня рождения, темнее там, где она прошла больше одного круга.</string>
     <string name="sky_footer">%1$s · Земля %2$s км/с</string>
     <string-array name="planet_names">
         <item>Меркурий</item>
@@ -63,8 +63,7 @@
     <string name="born_on">Родились %1$s · %2$s</string>
     <string name="age_label">Возраст</string>
     <string name="hint_expand">Нажмите на возраст, чтобы увидеть разбивку</string>
-    <string name="hint_collapse">Нажмите на возраст, чтобы свернуть</string>
-    <string name="year_elapsed">Года прошло: %1$s</string>
+    <string name="year_elapsed">Прошло %1$s года</string>
     <plurals name="birthday_in">
         <item quantity="one">%1$d день до дня рождения</item>
         <item quantity="few">%1$d дня до дня рождения</item>
@@ -82,7 +81,6 @@
     <string name="unit_hours">ч</string>
     <string name="unit_minutes">мин</string>
     <string name="unit_seconds">с</string>
-    <string name="unit_millis">мс</string>
     <string name="total_title">Всего</string>
     <string name="total_months">месяцев</string>
     <string name="total_weeks">недель</string>
@@ -211,7 +209,7 @@
     <string name="widget_mala_label">Мала</string>
     <string name="widget_mala_description">Чётки из 108 бусин: каждый день сдвигается одна. В центре считаются пройденные круги.</string>
     <string name="blurb_mala">2×2. Бусина на каждый день круга в 108 дней. Красная — сегодня, число — пройденные круги.</string>
-    <plurals name="mala_laps">
+    <plurals name="mala_laps" tools:ignore="ImpliedQuantity">
         <item quantity="one">круг</item>
         <item quantity="few">круга</item>
         <item quantity="many">кругов</item>
@@ -221,14 +219,64 @@
 
     <!-- Удары сердца -->
     <string name="widget_pulse_label">Удары сердца</string>
-    <string name="widget_pulse_description">Удары сердца с рождения при ровных 70 в минуту и сколько это от обычного итога за человеческую жизнь.</string>
-    <string name="blurb_pulse">2×2. Счёт ударов при 70 в минуту, полоска показывает вашу долю от среднего итога за жизнь, 2,5 млрд.</string>
-    <string name="pulse_unit">ударов сердца</string>
-    <string name="pulse_left">В среднем осталось:\n%1$s млрд</string>
-    <string name="pulse_beyond">Выше среднего</string>
+    <string name="widget_pulse_description">Сколько ударов сердца осталось в среднем: счёт идёт вниз при ровных 70 в минуту от обычного итога в 2,85 млрд за человеческую жизнь. Это среднее по людям, а не прогноз.</string>
+    <string name="pulse_left_word">ещё</string>
+    <string name="blurb_pulse">2×2. Сколько ударов осталось в среднем: счёт идёт вниз при 70 в минуту от 2,85 млрд за типичную жизнь. Цифры бегут.</string>
     <!-- Сад камней -->
     <string name="group_calm">Покой</string>
     <string name="widget_garden_label">Сад камней</string>
     <string name="widget_garden_description">Сад с граблёным песком, каждый день новый. Камни и круги рисуются из сегодняшней даты, два дня подряд не повторяются.</string>
     <string name="blurb_garden">4×2. Круги расходятся от камней и встречаются друг с другом. Каждый день новая расстановка.</string>
-    <string name="palette_garden">Песок и камень</string></resources>
+    <string name="palette_garden">Песок и камень</string>
+    <!-- Первый запуск, выбор даты, группы настроек, язык -->
+    <string name="setup_title">Когда вы родились?</string>
+    <string name="setup_sentence">Я родился(-ась) {date} в {time}, город: {city}</string>
+    <string name="setup_pick_date">выберите дату</string>
+    <string name="sheet_date_title">Дата рождения</string>
+    <string name="sheet_time_title">Время рождения</string>
+    <string name="sheet_city_title">Город рождения</string>
+    <string name="sheet_cancel">Отмена</string>
+    <string name="sheet_ok">ОК</string>
+    <string name="time_unknown">Не знаю время</string>
+    <string name="time_unknown_hint">Берётся 12:00, возраст может отличаться не больше чем на полдня.</string>
+    <string name="city_search">Найти город</string>
+    <string name="city_none">Город не найден</string>
+    <string name="settings_group_birth">Рождение</string>
+    <string name="setting_date">Дата</string>
+    <string name="setting_time">Время</string>
+    <string name="setting_city">Город</string>
+    <string name="language_title">Язык</string>
+    <string name="language_system">Системный</string>
+
+    <!-- Сегодня: Луна, жизнь по годам, поделиться -->
+    <string name="moon_title">Луна</string>
+    <string name="moon_today">Сегодня</string>
+    <string name="moon_birth">В день вашего рождения</string>
+    <string name="moon_lit">освещено %1$s</string>
+    <string name="moon_note">Приблизительно: фаза может отличаться примерно на сутки.</string>
+    <string name="phase_new">Новолуние</string>
+    <string name="phase_waxing_crescent">Растущий серп</string>
+    <string name="phase_first_quarter">Первая четверть</string>
+    <string name="phase_waxing_gibbous">Растущая Луна</string>
+    <string name="phase_full">Полнолуние</string>
+    <string name="phase_waning_gibbous">Убывающая Луна</string>
+    <string name="phase_last_quarter">Последняя четверть</string>
+    <string name="phase_waning_crescent">Убывающий серп</string>
+    <string name="lifegrid_title">Жизнь по годам</string>
+    <string name="share_image">Поделиться картинкой</string>
+    <string name="share_chooser">Поделиться</string>
+    <string-array name="impermanence_lines" />
+
+    <!-- Витрина виджетов -->
+    <string name="widget_customize">Настроить</string>
+    <string name="widget_customize_hint">Сначала добавьте виджет на экран, затем его можно настроить.</string>
+    <string name="widget_position">%1$d из %2$d</string>
+
+    <!-- Озвучивается программой чтения с экрана -->
+    <plurals name="years_count">
+        <item quantity="one">%d год</item>
+        <item quantity="few">%d года</item>
+        <item quantity="many">%d лет</item>
+        <item quantity="other">%d года</item>
+    </plurals>
+</resources>

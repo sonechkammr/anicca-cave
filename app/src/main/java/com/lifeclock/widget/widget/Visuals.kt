@@ -160,6 +160,7 @@ object Visuals {
     )
     private const val SUN_COLOR = 0xFFEF9F27.toInt()
     private const val EARTH_RED = 0xFFE5242B.toInt()
+    private const val TRAIL_ALPHA = 90
 
     /** The solar system from above, [longitudes] and [trails] in degrees for each planet. */
     fun sky(
@@ -188,12 +189,23 @@ object Visuals {
             for (i in ORBIT.indices) {
                 val r = outer * ORBIT[i]
                 val box = RectF(cx - r, cy - r, cx + r, cy + r)
-                val earth = i == Planets.EARTH
-                val p = if (earth && !planetColors) Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = EARTH_RED; alpha = 170; style = Paint.Style.STROKE; strokeWidth = 1.8f * d; strokeCap = Paint.Cap.ROUND
-                } else paint(150, 1.8f * d).apply { strokeCap = Paint.Cap.ROUND }
-                val canvas = if (earth && !planetColors) bodies.canvas else base.canvas
-                canvas.drawArc(box, (-longitudes[i]).toFloat(), trails[i].toFloat(), false, p)
+                // The trail has the planet's own colour: Earth red and, with planet colours, every planet in its colour
+                // (those go on the untinted layer); otherwise it is the widget tint like the planet itself.
+                val untinted = planetColors || i == Planets.EARTH
+                val p = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = when { planetColors -> BODY_COLOR[i]; i == Planets.EARTH -> EARTH_RED; else -> 0xFFFFFFFF.toInt() }
+                    alpha = TRAIL_ALPHA
+                    style = Paint.Style.STROKE
+                    strokeWidth = 3f * d
+                    strokeCap = Paint.Cap.BUTT   // round caps would show as dark dots where passes meet
+                }
+                val canvas = if (untinted) bodies.canvas else base.canvas
+                // One translucent pass per lap, all ending at the planet: places it has crossed more often get darker.
+                var left = trails[i]
+                while (left > 0.0) {
+                    canvas.drawArc(box, (-longitudes[i]).toFloat(), minOf(left, 360.0).toFloat(), false, p)
+                    left -= 360.0
+                }
             }
         }
 
@@ -226,14 +238,17 @@ object Visuals {
                 val th = text.textSize
                 val (px, py) = pos(i)
                 val gap = (BODY_DP[i] * scale + 3f) * d
-                val right = px >= cx
-                var left = if (right) px + gap else px - gap - tw
-                if (left < 2f * d || left + tw > w - 2f * d) left = if (right) px - gap - tw else px + gap
-                val top = py - th * 0.5f
-                val box = RectF(left, top, left + tw, top + th)
-                if (taken.none { RectF.intersects(it, box) }) {
-                    taken.add(box)
-                    base.canvas.drawText(label, left, py + th * 0.35f, text)
+                // beside the planet on the roomier side first, then the other side, then a little above or below
+                val xs = if (px >= cx) listOf(px + gap, px - gap - tw) else listOf(px - gap - tw, px + gap)
+                var placed: RectF? = null
+                search@ for (dy in listOf(0f, -th * 0.95f, th * 0.95f)) for (left in xs) {
+                    if (left < 2f * d || left + tw > w - 2f * d) continue
+                    val box = RectF(left, py + dy - th * 0.5f, left + tw, py + dy + th * 0.5f)
+                    if (taken.none { RectF.intersects(it, box) }) { placed = box; break@search }
+                }
+                if (placed != null) {
+                    taken.add(placed)
+                    base.canvas.drawText(label, placed.left, placed.centerY() + th * 0.35f, text)
                 }
             }
             text.textAlign = Paint.Align.CENTER

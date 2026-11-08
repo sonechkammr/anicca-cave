@@ -237,16 +237,23 @@ object WidgetRenderer {
         return Rendered(v, false, SKY_REFRESH_MS)
     }
 
-    /** Planets need no birth date, only the clock. */
+    /**
+     * Planets need no birth date, only the clock. With one, the 4x4 face draws behind each planet a translucent trail in
+     * its own colour for everything it has travelled since your last birthday, one translucent pass per lap, so the
+     * stretches a fast planet has crossed again and again grow darker. Without one it falls back to the last month's track.
+     */
     private fun renderSky(
-        ctx: Context, cfg: WidgetConfig, widthDp: Int, heightDp: Int, background: Int,
+        ctx: Context, cfg: WidgetConfig, birth: ZonedDateTime?, widthDp: Int, heightDp: Int, background: Int,
         open: PendingIntent, nowMs: Long, backdrop: Int?,
     ): Rendered {
         val w = max(widthDp, 60).toFloat()
         val h = max(heightDp, 60).toFloat()
         val detailed = min(w, h) >= 200f
         val longitudes = DoubleArray(Planets.COUNT) { Planets.position(it, nowMs).longitude }
-        val trails = DoubleArray(Planets.COUNT) { Planets.travelled(it, nowMs, 30) }
+        val trails = if (detailed && birth != null) {
+            val start = Trip.yearStartMs(birth, nowMs)
+            DoubleArray(Planets.COUNT) { Planets.travelledSince(it, start, nowMs) }   // not capped: laps count
+        } else DoubleArray(Planets.COUNT) { Planets.travelled(it, nowMs, 30) }
         val date = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.getDefault()).format(Instant.ofEpochMilli(nowMs).atZone(ZoneId.systemDefault()))
         val speed = "%.1f".format(Planets.speedKmS(Planets.EARTH, nowMs))
         val layers = Visuals.sky(
@@ -402,7 +409,11 @@ object WidgetRenderer {
         return Rendered(v, false, SKY_REFRESH_MS)
     }
 
-    /** Heartbeats since birth at 70 a minute, a trace, and how far along the average lifetime total you are. */
+    /**
+     * A trace and, under it, how many heartbeats are left on average (70 a minute against a lifetime of 2.85 billion),
+     * with the single word "left" or "ещё". The count runs down to the last digit, like the age decimals; it is an average
+     * over people, so it says "on average" in the description and never claims to be a forecast.
+     */
     private fun renderPulse(
         ctx: Context, cfg: WidgetConfig, birth: ZonedDateTime, widthDp: Int, heightDp: Int, background: Int,
         open: PendingIntent, nowMs: Long, light: Boolean, backdrop: Int?,
@@ -413,7 +424,7 @@ object WidgetRenderer {
         val innerH = h - 2 * PAD_GRID
         val beats = Pulse.beatsAt(birth, nowMs)
         val numberH = min(innerW / (10 * ASPECT + 3 * GAP_WIDTH), innerH * 0.3f)
-        val textH = 14f + 26f
+        val textH = 14f
         val artH = max(innerH - numberH - textH - 8f, 20f)
         val layers = Visuals.pulse(ctx, innerW, artH, Pulse.share(beats))
 
@@ -433,20 +444,13 @@ object WidgetRenderer {
         }
         fixedColor(cfg)?.let { v.setColorStateList(R.id.vis, "setImageTintList", ColorStateList.valueOf(it)) }
         v.setViewLayoutHeight(R.id.number_host, numberH, TypedValue.COMPLEX_UNIT_DIP)
-        val (number, flows) = buildGrouped(ctx, cfg, { ms -> Pulse.beatsAt(birth, ms) }, nowMs, innerW, numberH, light)
+        val (number, flows) = buildGrouped(
+            ctx, cfg, { ms -> Pulse.leftOnAverage(Pulse.beatsAt(birth, ms)) }, nowMs, innerW, numberH, light,
+        )
         v.removeAllViews(R.id.number_host)
         v.addView(R.id.number_host, number)
-        v.setTextViewText(R.id.unit, ctx.getString(R.string.pulse_unit))
-        val left = Pulse.leftOnAverage(beats)
-        v.setTextViewText(
-            R.id.note,
-            if (left > 0) ctx.getString(R.string.pulse_left, "%.1f".format(left / 1e9)) else ctx.getString(R.string.pulse_beyond),
-        )
-        fixedColor(cfg)?.let {
-            val soft = (it and 0x00FFFFFF) or (0xB8 shl 24)
-            v.setTextColor(R.id.unit, soft)
-            v.setTextColor(R.id.note, soft)
-        }
+        v.setTextViewText(R.id.unit, ctx.getString(R.string.pulse_left_word))
+        fixedColor(cfg)?.let { v.setTextColor(R.id.unit, (it and 0x00FFFFFF) or (0xB8 shl 24)) }
         applyPlate(v, ctx, cfg, w, h, PAD_GRID / 2f, backdrop)
         return Rendered(v, flows)
     }
@@ -494,8 +498,8 @@ object WidgetRenderer {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
         if (cfg.kind == Kind.GARDEN) return renderGarden(ctx, cfg, widthDp, heightDp, background, open, nowMs)
-        if (cfg.kind == Kind.PLANETS) return renderSky(ctx, cfg, widthDp, heightDp, background, open, nowMs, backdrop)
         val birth = birthOverride ?: Prefs.birth(ctx)
+        if (cfg.kind == Kind.PLANETS) return renderSky(ctx, cfg, birth, widthDp, heightDp, background, open, nowMs, backdrop)
         if (birth == null) {
             val e = RemoteViews(ctx.packageName, R.layout.widget_empty).apply {
                 setInt(R.id.root, "setBackgroundResource", background)
