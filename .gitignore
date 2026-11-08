@@ -1,8 +1,16 @@
-﻿.gradle/
+﻿# Gradle and Kotlin
+.gradle/
 .kotlin/
 build/
 app/build/
+
+# This machine only
 local.properties
 *.iml
 .idea/
 captures/
+
+# Operating system and logs
+.DS_Store
+Thumbs.db
+*.log

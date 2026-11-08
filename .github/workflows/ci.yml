@@ -4,28 +4,35 @@ on:
   push:
   pull_request:
 
+# A newer push to the same branch makes the older, still running build pointless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
-      - uses: android-actions/setup-android@v3
-        with:
-          # The action's default "tools" package no longer exists, which fails the step.
-          # Gradle downloads the platform it needs once the licences are accepted.
-          packages: ''
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: android-actions/setup-android@v4
+      - uses: gradle/actions/setup-gradle@v5
       - name: Build, unit tests and lint
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug testDebugUnitTest lintDebug --stacktrace
+      - name: Keep the debug APK
+        uses: actions/upload-artifact@v6
+        with:
+          name: Anicca-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 14
       - name: Keep reports on failure
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: reports
           path: |
