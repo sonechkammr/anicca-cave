@@ -63,7 +63,6 @@
     <string name="born_on">Родились %1$s · %2$s</string>
     <string name="age_label">Возраст</string>
     <string name="hint_expand">Нажмите на возраст, чтобы увидеть разбивку</string>
-    <string name="hint_collapse">Нажмите на возраст, чтобы свернуть</string>
     <string name="year_elapsed">Прошло %1$s года</string>
     <plurals name="birthday_in">
         <item quantity="one">%1$d день до дня рождения</item>
@@ -82,7 +81,6 @@
     <string name="unit_hours">ч</string>
     <string name="unit_minutes">мин</string>
     <string name="unit_seconds">с</string>
-    <string name="unit_millis">мс</string>
     <string name="total_title">Всего</string>
     <string name="total_months">месяцев</string>
     <string name="total_weeks">недель</string>
