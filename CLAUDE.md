@@ -89,7 +89,7 @@ load main class worker.org.gradle.process.internal.worker.GradleWorkerMain":
 CI (`.github/workflows/ci.yml`) runs the same three tasks on every push. `setup-android` is told to install no extra
 packages (its default `tools` package no longer exists).
 
-There are 60 unit tests: planet maths, trip and star calculations, the pulse and the garden generator, `LifeMath` edge
+There are 59 unit tests: planet maths, trip and star calculations, the pulse and the garden generator, `LifeMath` edge
 cases (29 February, DST gaps, before 1970, future dates, zone change), the birth rules and sentence template, the moon
 phase against real new, quarter and full moons, and the daily-line picker.
 
